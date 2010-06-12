@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<h2 id="about">{{ page.title }}</h2>
+<time datetime="{{ page.date | date: "%Y-%m-%d" }}">
+  {{ page.date | date: "%b %d, %Y" }}
+</time>
+
+<article>
+{{ content }}
+</article>
