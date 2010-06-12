@@ -53,9 +53,11 @@ article p {
 
 
 /* links */
+a {
+  text-decoration:none;
+}
 a:link {
   color: #336699;
-  text-decoration: none;
 }
 a:visited {
   color: #660000;
