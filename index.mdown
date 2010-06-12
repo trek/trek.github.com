@@ -2,11 +2,10 @@
 layout: default
 title: Hello
 ---
-<ul>
+
 {% for post in site.posts limit:5 %}
-  <li>
+  <div>
     <h2><a href='{{ post.url }}'>{{ post.title }}</a></h2>
     {{ post.content | truncatewords: 100 }}
-  </li>
+  </div>
 {% endfor %}
-</ul>
