@@ -1,0 +1,6 @@
+--- 
+layout: default
+title: Hello
+---
+
+I am a meat puppet
