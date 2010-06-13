@@ -2,11 +2,6 @@
 layout: post
 title: Get Your API Right
 ---
-<hr />
-<p style='text-align:center;'>
-Like the cut of our jib? You may be interested in our <a href='http://wonderfullyflawed.com/2009/07/08/rails-foundations-workshops/'>Rails Foundations</a> Workshop July 20 - August 18.
-</p>
-<hr />
 <p>Every project I&#8217;ve worked on in the last two years has heavily involved the use of web APIs. <a href="http://www.libersy.com">Libersy</a> at the time (no idea about now) had an architecture that was extensively API based, even for communication between internal applications (an architecture I <em>strongly</em> argued against, bee tea dubs).  Since then I&#8217;ve futzed with web APIs almost exclusively. From very narrow focused uses like University of Michigan&#8217;s <a href="http://bluestream.dc.umich.edu/">Bluestream Service</a>, to more broad but still fairly local APIs like the <a href="http://www.aadl.org/">Ann Arbor District Library&#8217;s</a> soon-to-be-updated API, all the way to APIs of major web applications like Twitter and Flickr.</p>
 
 <p>Constant exposure has turned me into a bit of a snob: I can&#8217;t stand working with a poorly designed API!  If you&#8217;re about to design or release an API for the web and want to avoid the ire of your developers, I&#8217;ve summed up the best (and worst) of what I&#8217;ve seen into 8 rules:</p>

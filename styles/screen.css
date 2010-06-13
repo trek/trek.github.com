@@ -79,8 +79,13 @@ ul, ol {
 #subtitle { color: #333; font-size: 24pt; }
 #title { color: #333; font-size: 32pt; }
 #about {
+  font-size:10pt;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  margin-bottom:24pt;
+}
+#about h2 {
   color: #666;
   font-size: 22pt;
-  margin-bottom: 24pt;
   margin-top: 24pt;
+  margin-bottom: 4px;
 }
