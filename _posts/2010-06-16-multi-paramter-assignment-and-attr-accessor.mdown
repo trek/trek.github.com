@@ -1,0 +1,25 @@
+---
+title: Multiparameter assignment and attr_accessor
+byline: Trek
+layout: post
+---
+I've needed multiparamter assignment on non-persisted attributes for a few projects (usually on for `Date` and `Time` objects). Typically,  I cheat and send separate attribute and have a `before_validation` callback to combine them into a date. I finally sat down and sussed out how to do it properly:
+
+
+{% highlight ruby %}
+attr_accessor :initial_billing_day, 
+              :initial_billing_month, 
+              :initial_billing_year
+              
+composed_of :initial_billing_date, 
+  :class_name => "Date", 
+  :mapping => [
+    %w(initial_billing_day day), 
+    %w(initial_billing_year year), 
+    %w(initial_billing_month month)
+  ],
+  :constructor => proc {|y, m, d|
+    return nil unless y && m && d
+    Date.new(y,m,d)
+  }
+{% endhighlight %}
