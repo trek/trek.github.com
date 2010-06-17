@@ -2,6 +2,8 @@
 title: Format Parsing in Javascript
 byline: Trek
 layout: post
+excerpt: '<p><a href="http://github.com/jessesielaff/Riff">Riff</a> is a a recent spin-off project from <a href="http://github.com/jessesielaff/">Jesse Sielaff</a>&#8217;s work to bring a Ruby-like language interpreter to the browser.  Riff is a plugin for <a href="http://i.loveruby.net/en/projects/racc/">Racc</a> (a <a href="http://en.wikipedia.org/wiki/LALR_parser">LARL(1) parser generator</a> for Ruby).  Riff extends the output generation portions of Racc and writes javascript instead of Ruby.  If you&#8217;re familiar with LALR grammars this should add a handy tool to your javascript arsenal...</p>'
+
 ---
 <p><a href="http://github.com/jessesielaff/Riff">Riff</a> is a a recent spin-off project from <a href="http://github.com/jessesielaff/">Jesse Sielaff</a>&#8217;s work to bring a Ruby-like language interpreter to the browser.  Riff is a plugin for <a href="http://i.loveruby.net/en/projects/racc/">Racc</a> (a <a href="http://en.wikipedia.org/wiki/LALR_parser">LARL(1) parser generator</a> for Ruby).  Riff extends the output generation portions of Racc and writes javascript instead of Ruby.  If you&#8217;re familiar with LALR grammars this should add a handy tool to your javascript arsenal.</p>
 

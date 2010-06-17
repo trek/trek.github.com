@@ -2,6 +2,9 @@
 title: Multiparameter assignment and attr_accessor
 byline: Trek
 layout: post
+excerpt: '<p>I&#8217;ve needed multiparamter assignment on non-persisted attributes for a few projects (usually on for <code>Date</code> and <code>Time</code> objects). Typically,  I cheat and send separate attribute and have a <code>before_validation</code> callback to combine them into a date. I finally sat down and sussed out how to do it properly...</p>
+'
+
 ---
 I've needed multiparamter assignment on non-persisted attributes for a few projects (usually on for `Date` and `Time` objects). Typically,  I cheat and send separate attribute and have a `before_validation` callback to combine them into a date. I finally sat down and sussed out how to do it properly:
 

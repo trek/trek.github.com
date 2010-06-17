@@ -1,6 +1,8 @@
 --- 
 layout: post
 title: Scoped DOM Selection
+excerpt: "<p>While Jesse operates on the next version of Red, his never-quite-ready Ruby runtime built on top of Javascript, I&#8217;ve been playing with RedShift, our Ruby DOM manipulation library by exploring Ruby idioms that would make common tasks more elegant.</p><p>We already have a <a href='http://red-js.rubyforge.org/red/rdoc/classes/Document.html#M000657'><code>ready?</code> method</a> on the <code>Document</code> class that is called when the DOM has been parsed and is ready.  It&#8217;s the equivalent of jQuery&#8217;s <code>$(document).ready(fn)</code>, Prototype&#8217;s <code>document.observe('dom:loaded', fn)</code>, and MooTools&#8217; <code>window.addEvent('domready', fn)</code> functions.</p>"
+
 ---
 <p>While Jesse operates on the next version of Red, his never-quite-ready Ruby runtime built on top of Javascript, I&#8217;ve been playing with RedShift, our Ruby DOM manipulation library by exploring Ruby idioms that would make common tasks more elegant.</p>
 

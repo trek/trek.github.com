@@ -1,6 +1,9 @@
 --- 
 layout: post
 title: Automating iTunes Gift Cards
+excerpt: "<p>I&#8217;m finishing up a project for the <a href='http://www.sph.umich.edu/'> University of Michigan School of Public Health</a> that involves using iTunes Gift Cards as a participant incentive. They&#8217;ve pre-bought about $20,000 of Gift Cards and given me the ids. We <em>could</em> just have participants copy/paste their code into iTunes, but I wanted to create a smooth user experience for redeeming.</p>
+"
+
 ---
 I'm finishing up a project for the <a href='http://www.sph.umich.edu/'> University of Michigan School of Public Health</a> that involves using iTunes Gift Cards as a participant incentive. They've pre-bought about $20,000 of Gift Cards and given me the ids.
 

@@ -1,6 +1,8 @@
 --- 
 layout: post
 title: Rails Foundations Workshops - Winter 2010
+excerpt: "<p>If you&#8217;re in South East Michigan and serious about learning (or better understanding) Rails our upcoming <a href='http://backtik.github.com'><em>Rails Foundations</em></a> workshop series is for you.</p><p>This season, we're trying something new: name your own price workshops</p>"
+
 ---
 <p>If you&#8217;re in South East Michigan and serious about learning (or better understanding) Rails our upcoming <a href="http://backtik.github.com"><em>Rails Foundations</em></a> workshop series is for you.</p>
 
