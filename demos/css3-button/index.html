@@ -7,7 +7,7 @@
       body {
         font: 70% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
       }
-      a {
+      div.apple a {
         -webkit-border-radius:28px; -moz-border-radius: 28px;
         border:1px solid #2973a6;
         padding:2px 12px 3px 12px;
@@ -28,7 +28,32 @@
         margin-left:2px;
         margin-bottom:20px;
       }
+      div.hot-potato {
+        height:50px;
+        width:130px;
+        background-color:#c3423a;
+      }
+      div.hot-potato a {
+        display:block;
+        float:left;
+        margin:8px;
+        text-align:middle;
+        font-size:125%;
+        -webkit-border-radius:28px; -moz-border-radius: 28px;
+        border:3px solid #db8d88;
+        padding:6px 24px 8px 24px;
+        color:#323232;
+        background-color:#3e9ee5;
+        background-image: -moz-linear-gradient(top, #fbfbfb, #dfe0e1);
+        background: -webkit-gradient(linear, left top, left bottom,
+            from(#fbfbfb), to(#dfe0e1)
+            );
+
+        text-decoration:none;
+        font-weight:bold;  
+      }
     </style>
+  
   </head>
   <body>
     <!--
@@ -42,7 +67,12 @@
                 (____/                                 |/
     
      -->
-    <div><a href='/'>Notify Me</a></div>
+    <div class='apple'><a href='/'>Notify Me</a></div>
     <img src="apple.png" width="80" height="25" alt="Apple">
+    
+    <div class='hot-potato'>
+      <a href='/'>Doin' It</a>
+    </div>
+    <img src="hot-potato.png" width="111" height="50" alt="Hot Potato">
   </body>
 </html>
