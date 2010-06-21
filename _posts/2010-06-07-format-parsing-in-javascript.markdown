@@ -63,7 +63,7 @@ excerpt: '<p><a href="http://github.com/jessesielaff/Riff">Riff</a> is a a recen
 
 <p>Organizationally, I prefer separating out language definition, parsing, and evaluation. I personally find it reads more easily than putting everything in a single structure. Plus, it gives us the benefit of using compiled templates.</p>
 
-<p>Speedwise, Jan&#8217;s <code>Mustache</code> ranges from identical up to 5x faster (depending the example), averaging 1.5x faster than ours. But as <a href="http://twitter.com/janl/status/15443198351">Jan kindly noted</a> code size and simplicity are probably more important than incremental speed gains. Plus, if you&#8217;re desperate for cycles, using compiled templates is 5x faster (3x faster than Jan&#8217;s).</p>
+<p>Speedwise, Jan&#8217;s <code>Mustache</code> ranges from identical up to 4x faster (depending the example), averaging 1.3x faster than ours. But as <a href="http://twitter.com/janl/status/15443198351">Jan kindly noted</a> code size and simplicity are probably more important than incremental speed gains. Plus, if you&#8217;re desperate for cycles, using compiled templates is 14x faster (9x faster than Jan&#8217;s).</p>
 
 <p>Here are the <a href="http://github.com/trek/mustache-speed-shootout">speed test</a> results (run in Firefox, on my last-gen Macbook):</p>
 
@@ -79,45 +79,45 @@ excerpt: '<p><a href="http://github.com/jessesielaff/Riff">Riff</a> is a a recen
     <tbody>
       <tr>
         <th>basic</th>
-        <td>476ms</td>
-        <td>1326ms</td>
-        <td>152ms</td>
+        <td>207ms</td>
+        <td>356ms</td>
+        <td>25ms</td>
       </tr>
       <tr>
         <th>complex</th>
-        <td>1668ms</td>
-        <td>1558ms</td>
-        <td>510ms</td>
+        <td>676ms</td>
+        <td>885ms</td>
+        <td>74ms</td>
       </tr>
       <tr>
         <th>friend</th>
-        <td>465ms</td>
-        <td>830ms</td>
-        <td>150ms</td>
+        <td>202ms</td>
+        <td>227ms</td>
+        <td>22ms</td>
       </tr>
       <tr>
         <th>long</th>
-        <td>448ms</td>
-        <td>1007ms</td>
-        <td>188ms</td>
+        <td>192ms</td>
+        <td>450ms</td>
+        <td>29ms</td>
       </tr>
       <tr>
         <th>looping</th>
-        <td>711ms</td>
-        <td>741ms</td>
-        <td>167ms</td>
+        <td>278ms</td>
+        <td>354ms</td>
+        <td>25ms</td>
       </tr>
       <tr>
         <th>partial</th>
-        <td>1912ms</td>
-        <td>3271ms</td>
-        <td>577ms</td>
+        <td>892ms</td>
+        <td>945ms</td>
+        <td>81ms</td>
       </tr>
       <tr>
         <td></td>
-        <td>5680</td>
-        <td>8733</td>
-        <td>1744</td>
+        <td>2447</td>
+        <td>3217</td>
+        <td>256</td>
       </tr>
     </tbody>
   </table></p>
