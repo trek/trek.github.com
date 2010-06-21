@@ -1,0 +1,143 @@
+---
+title: Has Many, with Precedence
+byline: Trek
+layout: post
+excerpt:
+
+---
+
+Every so often I have a `has_many` ActiveRecord relationship with a twist: one (and only one) of the many possible related items is special in some way and I want to be get and set it like other associations.  Imagine a `Customer` has several phone numbers, but only one is their primary contact number.
+
+ActiveRecord has a few strategies for multiple, similar relationships. You could use association extensions and define a sub-assocation like so:
+
+{% highlight ruby %}
+class Customer < ActiveRecord::Base
+  has_many :phone_numbers do
+    def priamry
+      find(:first, :conditions => {:is_primary => true})
+    end
+  end
+end
+{% endhighlight %}
+    
+which will allow you to retrieve the primary phone number, but not set it:
+
+{% highlight ruby %}
+c = Customer.find(1)
+c.phone_numbers.primary
+# => <PhoneNumber id: 1 number: '5551234', is_primary true>
+c.phone_numbers.primary = PhoneNumber.new(:number => '5551235')
+# => NoMethodError: undefined method `primary='
+{% endhighlight %}
+
+ActiveRecord lets you define multiple relationships to the same class with some configuration:
+{% highlight ruby %}
+class Customer < ActiveRecord::Base
+  has_many :phone_numbers
+  has_many :primary_phone_numbers, 
+           :class_name => 'PhoneNumber', 
+           :conditions => {:is_primary => true}
+end
+{% endhighlight %}
+
+This will let you ask for either collection, assign new or existing objects to either collection, and even use the `build` and `create` methods on the collection to get new objects with the attributes pre-assigned to match the `:conditions` you supplied:
+{% highlight ruby %}
+c = Customer.find(1)
+c.phone_numbers
+#    [<PhoneNumber id: 1 number: '5551234', is_primary true,
+#    <PhoneNumber id: 2 number: '5551234', is_primary false >]
+c.primary_phone_numbers
+#    [<PhoneNumber id: 1 number: '5551234', is_primary true]
+{% endhighlight %}
+
+The problem here is that you always get a collection back, and will need additional code to enforce the existence of a single primary phone number for a customer. 
+
+{% highlight ruby %}
+c = Customer.find(1)
+c.phone_numbers
+#    [<PhoneNumber id: 1 number: '5551234', is_primary true,
+#    <PhoneNumber id: 2 number: '5551234', is_primary false >]
+c.primary_phone_numbers << PhoneNumber.new(:number => '555 9081')
+#    [<PhoneNumber id: 3 number: '5559081', is_primary true]
+c.primary_phone_numbers
+# two primary phone nubmers!
+# [<PhoneNumber id: 1 number: '5551234', is_primary true,
+#   <PhoneNumber id: 3 number: '5559081', is_primary true]
+{% endhighlight %}    
+    
+You might think, at first, the solution is to has `has_one`
+
+{% highlight ruby %}
+class Customer < ActiveRecord::Base
+  has_many :phone_numbers
+  has_one  :primary_phone_number, 
+           :class_name => 'PhoneNumber', 
+           :conditions => {:is_primary => true}
+end
+{% endhighlight %}
+
+This will work fine for retrieving, but you'll run into trouble when trying to assign. Part of the job of a `has_one` relationship is ensuring that the foreign key appears only once for the type of association.
+
+{% highlight ruby %}
+c = Customer.find(1)
+c.phone_numbers
+#    [<PhoneNumber id: 1 number: '5551234', is_primary true,
+#    <PhoneNumber id: 2 number: '5551234', is_primary false >]
+c.primary_phone_number 
+#    <PhoneNumber id: 1 number: '5551234', is_primary true>
+c.primary_phone_number = Number.new(:number => '555 0919')
+#    <PhoneNumber id: 3 number: '5550919', is_primary true>
+c.reload
+c.phone_numbers
+# foreign keys cleared
+# [<PhoneNumber id: 3 number: '5550919', is_primary true>]
+{% endhighlight %}
+
+The solution I'm currently using is to flip the relationship (and where the foreign key is stored) by making a Customer belong_to primary PhoneNumber
+
+{% highlight ruby %}
+class Customer < ActiveRecord::Base
+  has_many :phone_numbers
+  belongs_to  :primary_phone_number, :class_name => 'PhoneNumber'
+end
+{% endhighlight %}
+
+Now we can get and set a primary phone number without overwriting the old ones. Unfortunately we have the complementary problem to the one above. When we ask for `phone_numbers` the collection won't include the primary phone number (since it lacks the `customer_id` in the `phone_numbers` table)
+
+{% highlight ruby %}
+  c.phone_numbers
+  #    [<PhoneNumber id: 1 number: '5551234'>]
+  c.primary_phone_number 
+  #    nil
+  c.primary_phone_number = Number.new(:number => '555 0919')
+  #    <PhoneNumber id: 3 number: '5550919'>
+  c.reload
+  c.phone_numbers
+  # doesn't include the primary phone number
+  # [<PhoneNumber id: 1 number: '5551234'>]
+{% endhighlight %}
+    
+In the future, We'll be able to solve this with a `before_add` callback whenever [this patch is applied](https://rails.lighthouseapp.com/projects/8994/tickets/1564-add-support-for-before-and-after-addremove-callbacks-to-belongs_to-associations) (right now they only work for `has_many` associations):
+
+{% highlight ruby %}
+belongs_to  :primary_phone_number, 
+            :class_name => 'PhoneNumber', 
+            :before_add => :add_to_phone_numbers
+
+def add_to_phone_numbers(phone_number)
+  self.phone_numbers << phone_number
+end
+{% endhighlight %}
+
+Until then, you can work around the limitation with some `alias_method_chain` trickery:
+
+{% highlight ruby %}
+belongs_to :phone_number
+
+def phone_number_with_callback=(phone_number)
+  self.phone_numbers << phone_number
+  self.phone_number_without_callback = phone_number
+end
+
+alias_method_chain :phone_number=, :callback
+{% endhighlight %}
