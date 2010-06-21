@@ -2,7 +2,8 @@
 title: Has Many, with Precedence
 byline: Trek
 layout: post
-excerpt:
+excerpt: "<p>Every so often I have a <code>has_many</code> ActiveRecord relationship with a twist: one (and only one) of the many possible related items is special in some way and I want to be get and set it like other associations.  Imagine a <code>Customer</code> has several phone numbers, but only one is their primary contact number.</p>"
+
 
 ---
 
