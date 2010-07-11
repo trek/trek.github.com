@@ -8,8 +8,9 @@
     <link href="/styles/code.css" media="screen" rel="stylesheet" type="text/css" />
     <script type="text/javascript" charset="utf-8">
       var here = window.location.toString();
-      if (here.charAt(here.length-1) !== '/') {
-        window.location = here + '/';
+      var size = here.length
+      if (here.charAt(size-1) === '/') {
+        window.location = here.slice(0,-1)
       } 
     </script>
     <title>Trek | Oooops!</title>
