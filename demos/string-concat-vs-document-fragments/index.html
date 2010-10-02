@@ -21,7 +21,7 @@
         box.innerHTML = ary.join('');
       };
       
-      var singleString = function(box){
+      var buildWithStrings = function(box){
         box.innerHTML = '';
         var str = ''
         + '<div>'
@@ -34,24 +34,24 @@
         + '</a>'
         + ' or not, your call.'
         + '</p>'
-        + '</div>'
+        + '</div>';
         box.innerHTML = str;
       };
       
-      var buildWithString = function(box){
+      var singleString = function(box){
         box.innerHTML = '';
         var str = '';
-        str = str + '<div>';
-        str = str + '<p>';
-        str = str + 'You could search for it on ';
-        str = str + '<a ';
-        str = str + 'href="http://www.google.com"';
-        str = str + '/>';
-        str = str + 'Google';
-        str = str + '</a>';
-        str = str + ' or not, your call.';
-        str = str + '</p>';
-        str = str + '</div>';
+        str += '<div>';
+        str += '<p>';
+        str += 'You could search for it on ';
+        str += '<a ';
+        str += 'href="http://www.google.com"';
+        str += '/>';
+        str += 'Google';
+        str += '</a>';
+        str += ' or not, your call.';
+        str += '</p>';
+        str += '</div>';
         
         box.innerHTML = str;
       };
@@ -84,11 +84,6 @@
         };
         var arrayPushStop = +new Date();
         
-        var singleStringSampleStart = +new Date();
-        for (var i=0; i < 1000; i++) {
-          singleString(box);
-        };
-        var singleStringSampleStop = +new Date();
         
         var singleStringSampleStart = +new Date();
         for (var i=0; i < 1000; i++) {
@@ -96,11 +91,11 @@
         };
         var singleStringSampleStop = +new Date();
         
-        var stringSampleStart = +new Date();
+        var buildWithStringsStart = +new Date();
         for (var i=0; i < 1000; i++) {
-          buildWithString(box);
+          buildWithStrings(box);
         };
-        var stringSampleStop = +new Date();
+        var buildWithStringsStop = +new Date();
         
         var domSampleStart = +new Date();
         for (var i=0; i < 1000; i++) {
@@ -110,8 +105,8 @@
         
         box.innerHTML = "<p>" + (arrayPushStop - arrayPushStart).toString() + "ms: " + "array pushing" + "</p>" +
                         "<p>" + (singleStringSampleStop - singleStringSampleStart).toString() + "ms: " + "single string concatenation" + "</p>" +
-                        "<p>" + (stringSampleStop - stringSampleStart).toString() + "ms: " + "string concatenation" + "</p>" +
-                        "<p>" + (domSampleStop - domSampleStart).toString() + "ms:" + "documentFragment append" + "</p>";
+                        "<p>" + (buildWithStringsStop - buildWithStringsStart).toString() + "ms: " + "string adding" + "</p>" +
+                        "<p>" + (domSampleStop - domSampleStart).toString() + "ms: " + "documentFragment append" + "</p>";
       };
     </script>
   </head>
