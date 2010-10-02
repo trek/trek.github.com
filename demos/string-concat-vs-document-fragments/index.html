@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>speed shootout</title>
+    <script type="text/javascript" charset="utf-8">
+      
+      var buildWithString = function(){
+        box.innerHTML = '';
+        var str = '';
+        str = str + '<div>';
+        str = str + '<p>';
+        str = str + 'You could search for it on ';
+        str = str + '<a ';
+        str = str + 'href="http://www.google.com"';
+        str = str + '/>';
+        str = str + 'Google';
+        str = str + '</a>';
+        str = str + ' or not, your call.';
+        str = str + '</p>';
+        str = str + '</div>';
+        
+        box.innerHTML = str;
+      };
+      var buildWithDocumentFragment = function(){
+        box.innerHTML = '';
+        
+        var documentFragment = document.createDocumentFragment();
+        
+        var div = document.createElement('div');
+        var p   = document.createElement('p');
+        var a   = document.createElement('a');
+      
+        a.setAttribute('href', 'http://www.google.com');
+        a.appendChild(document.createTextNode('Google'));
+        
+        p.appendChild(document.createTextNode('You could search for it on '));
+        p.appendChild(a);
+        p.appendChild(document.createTextNode(' or not, your call.'));
+        
+        div.appendChild(p);
+        documentFragment.appendChild(div);
+        box.appendChild(documentFragment);
+      };
+      var run = function(){
+        var box = document.getElementById('box');
+        
+        var stringSampleStart = +new Date();
+        for (var i=0; i < 10000; i++) {
+          buildWithString();
+        };
+        var stringSampleStop = +new Date();
+        
+        var domSampleStart = +new Date();
+        for (var i=0; i < 10000; i++) {
+          buildWithDocumentFragment();
+        };
+        var domSampleStop = +new Date();
+        
+        box.innerHTML = "<p>" + (stringSampleStop - stringSampleStart).toString() + "ms: " + "string concatenation" + "</p>" +
+                        "<p>" + (domSampleStop - domSampleStart).toString() + "ms:" + "documentFragment append" + "</p>";
+      };
+    </script>
+  </head>
+  <body onload='run()'>
+    <div id='box'></div>
+  </body>
+</html>
