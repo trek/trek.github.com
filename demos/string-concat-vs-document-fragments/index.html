@@ -4,8 +4,41 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>speed shootout</title>
     <script type="text/javascript" charset="utf-8">
+      var arrayPush = function(box){
+        box.innerHTML = '';
+        var ary = []
+        ary.push('<div>');
+        ary.push( '<p>');
+        ary.push( 'You could search for it on ');
+        ary.push( '<a ');
+        ary.push( 'href="http://www.google.com"');
+        ary.push( '/>');
+        ary.push( 'Google');
+        ary.push( '</a>');
+        ary.push( ' or not, your call.');
+        ary.push( '</p>');
+        ary.push( '</div>');
+        box.innerHTML = ary.join('');
+      };
       
-      var buildWithString = function(){
+      var singleString = function(box){
+        box.innerHTML = '';
+        var str = ''
+        + '<div>';
+        + '<p>';
+        + 'You could search for it on ';
+        + '<a ';
+        + 'href="http://www.google.com"';
+        + '/>';
+        + 'Google';
+        + '</a>';
+        + ' or not, your call.';
+        + '</p>';
+        + '</div>';
+        box.innerHTML = str;
+      };
+      
+      var buildWithString = function(box){
         box.innerHTML = '';
         var str = '';
         str = str + '<div>';
@@ -22,7 +55,7 @@
         
         box.innerHTML = str;
       };
-      var buildWithDocumentFragment = function(){
+      var buildWithDocumentFragment = function(box){
         box.innerHTML = '';
         
         var documentFragment = document.createDocumentFragment();
@@ -45,19 +78,39 @@
       var run = function(){
         var box = document.getElementById('box');
         
+        var arrayPushStart = +new Date();
+        for (var i=0; i < 1000; i++) {
+          arrayPush(box);
+        };
+        var arrayPushStop = +new Date();
+        
+        var singleStringSampleStart = +new Date();
+        for (var i=0; i < 1000; i++) {
+          singleString(box);
+        };
+        var singleStringSampleStop = +new Date();
+        
+        var singleStringSampleStart = +new Date();
+        for (var i=0; i < 1000; i++) {
+          singleString(box);
+        };
+        var singleStringSampleStop = +new Date();
+        
         var stringSampleStart = +new Date();
-        for (var i=0; i < 10000; i++) {
-          buildWithString();
+        for (var i=0; i < 1000; i++) {
+          buildWithString(box);
         };
         var stringSampleStop = +new Date();
         
         var domSampleStart = +new Date();
-        for (var i=0; i < 10000; i++) {
-          buildWithDocumentFragment();
+        for (var i=0; i < 1000; i++) {
+          buildWithDocumentFragment(box);
         };
         var domSampleStop = +new Date();
         
-        box.innerHTML = "<p>" + (stringSampleStop - stringSampleStart).toString() + "ms: " + "string concatenation" + "</p>" +
+        box.innerHTML = "<p>" + (arrayPushStop - arrayPushStart).toString() + "ms: " + "array pushing" + "</p>" +
+                        "<p>" + (singleStringSampleStop - singleStringSampleStart).toString() + "ms: " + "single string concatenation" + "</p>" +
+                        "<p>" + (stringSampleStop - stringSampleStart).toString() + "ms: " + "string concatenation" + "</p>" +
                         "<p>" + (domSampleStop - domSampleStart).toString() + "ms:" + "documentFragment append" + "</p>";
       };
     </script>
