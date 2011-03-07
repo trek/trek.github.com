@@ -3,7 +3,7 @@ layout: post
 title: Rails Forms microformat
 ---
 <p><strong>This article has been updated to reflect the latest patterns in Rails 2.3 edge (based mostly on <a href='http://github.com/rails/rails/commit/5dbc9d40a49f5f0f50c2f3ebe6dda942f0e61562'>this commit</a></strong>)</p>
-<p>If you’ve been relying on Rails form helpers to generate forms, then you may have missed the interesting little microformat used to pass application data to and fro. In case you didn’t know, form data is passed as part of the request body as a set of key/values pairs in plain text (if you’re using <code>get</code> as a method for a form, it’s that url section like this: <code>?name=widget12&amp;price=22</code>). The <code>name</code> attribute of the form inputs are the keys (here <code>name</code> and <code>price</code>), and the value is whatever the user entered or selected (<code>widget12</code> and <code>22</code>).</p>
+<p>If you've been relying on Rails form helpers to generate forms, then you may have missed the interesting little microformat used to pass application data to and fro. In case you didn't know, form data is passed as part of the request body as a set of key/values pairs in plain text (if you're using <code>get</code> as a method for a form, it's that url section like this: <code>?name=widget12&amp;price=22</code>). The <code>name</code> attribute of the form inputs are the keys (here <code>name</code> and <code>price</code>), and the value is whatever the user entered or selected (<code>widget12</code> and <code>22</code>).</p>
 
 <p>Most languages/frameworks for the web will reconstitute these pairs as objects accessible to the programmer.</p>
 
@@ -14,7 +14,7 @@ title: Rails Forms microformat
 
 <p>is accessed with <code>$_POST["widget_name"]</code> in php, <code>self.request.get("widget_name")</code> on App Engine, and <code>params[:widget_name]</code> in Rails.</p>
 
-<p>This format can only pass a single value for a key, so it can’t represent complex data structures like hashes and arrays.  With single values in Rails, our controllers would be like this:</p>
+<p>This format can only pass a single value for a key, so it can't represent complex data structures like hashes and arrays.  With single values in Rails, our controllers would be like this:</p>
 
 <pre><code>def create
   @widget = Widget.new
@@ -26,7 +26,7 @@ rescue ActiveRecord::RecordInvalid
 end
 </code></pre>
 
-<p>We’d have one <code>@widget.some_name = params[:some_name]</code> per attribute we wanted to pass.  As far as I can tell, this is what programmers in PHP/App Engine/etc mostly do.  In Rails, however, we typically use</p>
+<p>We'd have one <code>@widget.some_name = params[:some_name]</code> per attribute we wanted to pass.  As far as I can tell, this is what programmers in PHP/App Engine/etc mostly do.  In Rails, however, we typically use</p>
 
 <pre><code>def create
   @widget = Widget.new(params[:widget])
@@ -34,9 +34,9 @@ end
 end
 </code></pre>
 
-<p>and Rails auto assigns attributes correctly for us. If you’ve never examined the output of your helpers you may not know how this happens.  Although we can only send <code>key=value</code> over the tubes, Rails is designed to parse this string looking for specific formatting and convert certain patterns into more complex data strictures. Basically, it’s a <a href="http://microformats.org/">microfrmat</a> for form inputs.</p>
+<p>and Rails auto assigns attributes correctly for us. If you've never examined the output of your helpers you may not know how this happens.  Although we can only send <code>key=value</code> over the tubes, Rails is designed to parse this string looking for specific formatting and convert certain patterns into more complex data strictures. Basically, it's a <a href="http://microformats.org/">microfrmat</a> for form inputs.</p>
 
-<p>This parsing is handled by a <a href="http://rack.rubyforge.org/">rack</a> middleware <code>ActionController::ParamsParser</code> in Rails 2.3+, so it’s a trick that could technically be available to any rack-based ruby application.</p>
+<p>This parsing is handled by a <a href="http://rack.rubyforge.org/">rack</a> middleware <code>ActionController::ParamsParser</code> in Rails 2.3+, so it's a trick that could technically be available to any rack-based ruby application.</p>
 
 <p>Having a hash accessible via <code>params[:widget]</code> occurs because all of the inputs for a widget are named with the format <code>"widget[some_attr]"</code>.  When Rails sees multiple inputs with names in this pattern, it sticks them all into a single data structure.</p>
 
@@ -84,7 +84,7 @@ end
 
 <p>However, since <code>ActiveRecord::Base.new</code> takes an optional hash argument we can shorten it to <code>Widget.new(params[:widget])</code></p>
 
-<p>That’s nifty, but Rails Forms (<code>rForms</code> maybe?) can do much more.  Take a gander at these patterns:</p>
+<p>That's nifty, but Rails Forms (<code>rForms</code> maybe?) can do much more.  Take a gander at these patterns:</p>
 
 <h3>Nested Hashes</h3>
 
@@ -130,7 +130,7 @@ end
 
 <h3>Arrays</h3>
 
-<p>If you have <code>[]</code> without text inside of it as the final characters of the name attribute, you’ll get an array on the other end:</p>
+<p>If you have <code>[]</code> without text inside of it as the final characters of the name attribute, you'll get an array on the other end:</p>
 
 <pre><code>&lt;!-- form.html --&gt;
 &lt;input name='foo[baz]', value='the baz' /&gt;
@@ -173,7 +173,7 @@ end
 
 <h2>Using It</h2>
 
-<p>Now that you’ve seen the the basics of structuring the format, how can we use it to do complex data manipulations in the UI and keep the same tiny <code>@object = ClassName.new(params[:something])</code> or <code>@object = ClassName.find(params[:id]).update_attributes!(params[:something])</code> snippets in our controller?  Let&#8217;s examine <code>belongs_to</code> as an exemplar:</p>
+<p>Now that you've seen the the basics of structuring the format, how can we use it to do complex data manipulations in the UI and keep the same tiny <code>@object = ClassName.new(params[:something])</code> or <code>@object = ClassName.find(params[:id]).update_attributes!(params[:something])</code> snippets in our controller?  Let&#8217;s examine <code>belongs_to</code> as an exemplar:</p>
 
 <h3><code>belongs_to</code></h3>
 
@@ -556,7 +556,7 @@ params = {
 }
 </code></pre>
 
-<p>That will call the <code>Creator#widgets_ids=</code> method that you get with the <code>has_many</code> relationship and associate the widgets in the same call that assigns the name and height attributes of the creator. Be aware that <code>widgets_ids=(ary)</code> overwrites the previous relationships (so if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to add <code>87</code> to that list, you’ll have to send <code>[10,40,51,87]</code>, not just <code>[87]</code>). It will look like this.</p>
+<p>That will call the <code>Creator#widgets_ids=</code> method that you get with the <code>has_many</code> relationship and associate the widgets in the same call that assigns the name and height attributes of the creator. Be aware that <code>widgets_ids=(ary)</code> overwrites the previous relationships (so if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to add <code>87</code> to that list, you'll have to send <code>[10,40,51,87]</code>, not just <code>[87]</code>). It will look like this.</p>
 
 <pre><code>    &lt;!-- form.html --&gt;
     &lt;input name="creator[name]" /&gt;
@@ -572,12 +572,12 @@ params = {
 <p>Expressing data manipulation of complex <code>has_many</code> relationships is quite tricky.
 Imagine you want to have a single form where a new <code>Creator</code> and his <code>widgets</code> can be entered at once, but also, at a later date, that same form could be used to update existing widgets, add new widgets, or delete old widgets.</p>
 
-<p>That’s a tall order. To do it we need to be able to tell</p>
+<p>That's a tall order. To do it we need to be able to tell</p>
 
 <ul>
 <li>which widgets are being updated</li>
 <li>which widgets are being added</li>
-<li>which widgets should be removed (does the lack of a widget on the form indicate we want to remove its association to this creator or remove its entry from the database entirely? Or, does it mean we’re just not interested in manipulating its data right now?)</li>
+<li>which widgets should be removed (does the lack of a widget on the form indicate we want to remove its association to this creator or remove its entry from the database entirely? Or, does it mean we're just not interested in manipulating its data right now?)</li>
 </ul>
 
 <h4>creating a new object, and new <code>to_many</code> relationships</h4>
@@ -609,7 +609,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 }
 </code></pre>
 
-<p>Let’s break down these naming rules for new objects:</p>
+<p>Let's break down these naming rules for new objects:</p>
 
 <pre><code>creator[widget_attributes][0][price]
 </code></pre>
@@ -617,7 +617,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 <ul>
 <li>the outermost key (<code>creator</code> here) can be called anything you like, and will be accessed with <code>params[:creator]</code> (or whatever you called it).</li>
 <li><code>widget_attributes</code> follows the pattern of <em>has_many_relationship_name</em>_attributes. So, if your relationship was <code>has_many :dogs</code>, you <em>must</em> use <code>dogs_attributes</code>, <code>has_many :foos</code> uses <code>foos_attributes</code>, <code>has_many :flavors</code> will be <code>flavors_attributes</code>.</li>
-<li><code>widgets_attributes</code> will be a hash, so it must be followed by brackets containing a unique identifier. Here we’ve used <code>[0]</code>. Because this identifier must be unique on the form (otherwise the hashes will overwrite each other), if we wanted a form that added two widgets at once we’d need <code>creator[widget_attributes][0]</code> and <code>creator[widget_attributes][foobar]</code> (the exact text doesn’t matter as long as it’s unique).</li>
+<li><code>widgets_attributes</code> will be a hash, so it must be followed by brackets containing a unique identifier. Here we've used <code>[0]</code>. Because this identifier must be unique on the form (otherwise the hashes will overwrite each other), if we wanted a form that added two widgets at once we'd need <code>creator[widget_attributes][0]</code> and <code>creator[widget_attributes][foobar]</code> (the exact text doesn't matter as long as it's unique).</li>
 </ul>
 
 <h4>updating an existing object and existing <code>to_many</code> relationships</h4>
@@ -665,7 +665,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 
 <ul>
 <li>Like other relationships, if you have <code>_attributes[n]</code> hash that does not include an <code>id</code>, a new object will be created and associated. Because this is <code>has_many</code> relationship, the number of related objects will be incremented by 1.   </li>
-<li>To create new associations to <em>existing</em> objects use the array format to add the existing objects&#8217; ids to <code>Creator#widgets_ids</code> with inputs names like <code>creator[widgets_ids][]</code>. Again: Be aware that <code>widgets_ids=(ary)</code> overwrites the previous relationships (so if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to add <code>87</code> to that list, you’ll have to send <code>[10,40,51,87]</code>, not just <code>[87]</code>). It will look like this:</li>
+<li>To create new associations to <em>existing</em> objects use the array format to add the existing objects&#8217; ids to <code>Creator#widgets_ids</code> with inputs names like <code>creator[widgets_ids][]</code>. Again: Be aware that <code>widgets_ids=(ary)</code> overwrites the previous relationships (so if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to add <code>87</code> to that list, you'll have to send <code>[10,40,51,87]</code>, not just <code>[87]</code>). It will look like this:</li>
 </ul>
 
 
@@ -681,7 +681,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 
 <h4>Removing a existing <code>to_many</code> relationship</h4>
 
-<p>To remove an existing <code>has_many</code> related item, include <code>_delete</code> inside its unique hash.  The value should be set to anything that will evaluate to <code>true</code> coming form a form (that’s <code>"1"</code>, <code>1</code>, <code>"true"</code>, and <code>true</code>).</p>
+<p>To remove an existing <code>has_many</code> related item, include <code>_delete</code> inside its unique hash.  The value should be set to anything that will evaluate to <code>true</code> coming form a form (that's <code>"1"</code>, <code>1</code>, <code>"true"</code>, and <code>true</code>).</p>
 
 <pre><code>&lt;!-- form.html --&gt;
 &lt;input name="creator[name]" /&gt;
@@ -708,7 +708,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 
 <ul>
 <li>Deleting this way is turned off by default. You enable it in the model by adding <code>:allow_destroy =&gt; true</code> to <code>accepts_nested_attributes_for</code> (e.g. <code>accepts_nested_attributes_for(:widgets, :allow_destroy =&gt; true</code>))</li>
-<li>This method deletes the association <em>and</em> associated object. To delete only the association, send the updated <code>_ids</code> attribute with the ids you don’t want removed: if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to remove <code>10</code> and <code>40</code> from that list send <code>[51]</code>.</li>
+<li>This method deletes the association <em>and</em> associated object. To delete only the association, send the updated <code>_ids</code> attribute with the ids you don't want removed: if you have <code>widgets_ids</code> of <code>[10,40,51]</code> and would like to remove <code>10</code> and <code>40</code> from that list send <code>[51]</code>.</li>
 </ul>
 
 
@@ -733,7 +733,7 @@ Imagine you want to have a single form where a new <code>Creator</code> and his 
 
 <p>Combining these techniques can net us some very sophisticated data manipulations. Below is a form that will update a <code>Creator</code>, his <code>address</code>, updates three existing <code>widgets</code>, adds one <code>widget</code>, and deletes two <code>widgets</code>.</p>
 
-<p>Here’s the form on page-load, before we manipulate it:</p>
+<p>Here's the form on page-load, before we manipulate it:</p>
 
 <pre><code>&lt;!-- BEFORE: form.html -- &gt;
 &lt;input name="creator[name]" /&gt;
