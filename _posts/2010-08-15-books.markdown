@@ -1,0 +1,40 @@
+Let’s Make a an Observer Library
+Most books and articles on javascript trends towards two extremes: basic instruction in the execution and idiomatic patterns of javascript as a language and basic usage of popular browser-focused utility libraries written in the language. In the first category I group [The Definitive Guide](http://www.amazon.com/JavaScript-Definitive-Guide-David-Flanagan/dp/0596101996/), Crockford's [The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742), Resig's [Pro JavaScript Techniques](http://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273/) and Harnes & Diaz's [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X); in the second, [jQuery, Novice to Ninja](http://www.amazon.com/jQuery-Novice-Ninja-Earle-Castledine/dp/0980576857/ref=sr_1_7?s=books&ie=UTF8&qid=1281890549&sr=1-7), [Mastering Dojo](http://www.amazon.com/Mastering-Dojo-JavaScript-Experiences-Programmers/dp/1934356115/ref=sr_1_4?s=books&ie=UTF8&qid=1281890571&sr=1-4), and [Practical Prototype and Scrtip.aculo.us](http://www.amazon.com/Practical-Prototype-script-aculo-us-Experts-Development/dp/1590599195/ref=sr_1_3?s=books&ie=UTF8&qid=1281890591&sr=1-3).
+
+In the wide gulf between these two sets there is almost nothing written. This leaves an intermediate javascript developer adrift. You understand basic language constructs, prototypal inheritance, and functional programming patterns. You've built a few browsed-based applications so you're accustomed to the DOM and user-generated event-based programming.
+
+But, like me, you're probably stumped when it comes to writing your own reusable libraries or organizing a large application. The flexibility everyone lauds in language can be an idiomatic quagmire when you're between the basics and off-the-shelf utility libraries.
+
+Given all this, I was super geeked when [Alex Young](http://alexyoung.org/) started a new series of articles entitled [Let's Make a Framework](http://dailyjs.com/2010/02/18/framework/).  This is some of the best middle ground writing about JavaScript I've read.
+
+I'd like to add to the body of work in this area, so over the next few weeks I'll be series of posts that explore writing a javascript implementation of the observer pattern.  Like Alex's series, this goal is creating an educational exercise for the reader, not to craft a ground-breaking library.
+
+I'm going to cover
+  
+  * the basic observer pattern 
+  * event based programming
+  * property change observation
+  * data syncing through observation
+  * existing libraries that use these techniques
+  
+Doing this, I'll focus on some modern development techniques:
+  
+  * behavior driven development
+  * source control
+  * API design
+  
+
+Let’s Make a an Observer Library. Part I: Library Architecture  
+======
+Welcome to part 1 of Writing an Observer Library, a series of posts about building a JavaScript library to implement the various flavors of the observer pattern. In this part I’m going to discuss library architectures, and lay down the design for our framework.
+
+This series is inspired by [Alex Young](http://alexyoung.org/)'s series of articles entitled [Let's Make a Framework](http://dailyjs.com/2010/02/18/framework/). Like Alex's, this series is designed to be educational. Also like Alex, we're going to define a set of practices to govern the library's crafting:
+
+* **Verbose**: Variable and method names should be verbose so things are easy to find and understand
+* **Portable**: Browsers and console should be catered for
+* **Indentation**: Two spaces
+* **API-focused**: a consistent, organized API is valued over other practices
+* **Tested**: Everything is tested (first) in JSpec
+* **Versioning**: We'll be keeping code in github
+* **Documented**: Everything should be well documented and a usage guide will be provided
+* **Neighborly**: We'll be sure not stop on global scope toes, avoid extending the prototype of included types, and use existing libraries if they provide functionality outside the scope of the what we're writing (dependencies are ok, folks)
