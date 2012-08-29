@@ -301,15 +301,15 @@ App.AllContributorsView = Ember.View.extend({
 </code></pre>
 
 <p>Within the state that matches for the index path (<code>'/'</code>), implement a
-<code>connnectOutlets</code> method. It takes a single argument that will be your
+<code>connectOutlets</code> method. It takes a single argument that will be your
 application's router. Within that method get the single instance of our
-<code>ApplicationController</code> class and connect its outlet with the <code>connnectOutlet</code>
+<code>ApplicationController</code> class and connect its outlet with the <code>connectOutlet</code>
 method:</p>
 
 <pre><code>index: Ember.Route.extend({
   route: '/',
-  connnectOutlets: function(router){
-    router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
+  connectOutlets: function(router){
+    router.get('applicationController').connectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
   }
 })
 </code></pre>
@@ -334,19 +334,19 @@ of applications the two frameworks were specifically created for.</p>
 
 <pre><code>index: Ember.Route.extend({
   route: '/',
-  connnectOutlets: function(router){
-    router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
+  connectOutlets: function(router){
+    router.get('applicationController').connectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
   }
 })
 </code></pre>
 
 <p>When your application is loaded at the url <code>'/'</code>, Ember will automatically
-transition the application into the state I've called <code>index</code>. <code>connnectOutlets</code>
+transition the application into the state I've called <code>index</code>. <code>connectOutlets</code>
 is called on this state. It acts as a callback for us to connect sections of our
 view hierarchy (designated with <code>{{outlet}}</code>) to specific views based on the
 state. In this case I want to connect the <code>{{outlet}}</code> in our application
 template with markup for all our contributors so I access the application's
-single shared instance of <code>ApplicationController</code> and call <code>connnectOutlet</code> on
+single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
 it with <code>'allContributors'</code> as an argument.</p>
 
 <p>When our application is <code>initialize</code>ed, a single shared instance of each
@@ -356,7 +356,7 @@ matches the controller's classname but converted to lower-camel style:
 <code>ApplicationController</code>'s single instance is stored as <code>applicationController</code>.</p>
 
 <p>Controllers have the ability to connect outlets in the views they control. In the
-above example, I'm calling <code>connnectOutlet</code> with <code>'allContributors'</code> as an argument.
+above example, I'm calling <code>connectOutlet</code> with <code>'allContributors'</code> as an argument.
 This will create an instance of <code>AllContributorsView</code> for us, set the shared instance of
 <code>AllContributorsController</code> as the view's default rendering context, and insert
 it into our view hierarchy at the point where <code>{{outlet}}</code> appears in the
@@ -416,8 +416,8 @@ into our index state:</p>
 
 <pre><code>index: Ember.Route.extend({
   route: '/',
-  connnectOutlets: function(router){
-    router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
+  connectOutlets: function(router){
+    router.get('applicationController').connectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
   }
 })
 </code></pre>
@@ -427,8 +427,8 @@ to a – as yet unimplemented – <code>Contributor</code> class and a <code>fin
 
 <pre><code>index: Ember.Route.extend({
   route: '/',
-  connnectOutlets: function(router){
-    router.get('applicationController').connnectOutlet('allContributors', App.Contributor.find());
+  connectOutlets: function(router){
+    router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
   }
 })
 </code></pre>
@@ -516,8 +516,8 @@ current router looks like this</p>
   root: Ember.Route.extend({
     index: Ember.Route.extend({
       route: '/',
-      connnectOutlets: function(router){
-        router.get('applicationController').connnectOutlet('allContributors', App.Contributor.find());
+      connectOutlets: function(router){
+        router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
       }
     })
   })
@@ -532,15 +532,15 @@ also going to rename 'index' to the more descriptive state name of
   root: Ember.Route.extend({
     contributors: Ember.Route.extend({
       route: '/',
-      connnectOutlets: function(router){
-        router.get('applicationController').connnectOutlet('allContributors', App.Contributor.find());
+      connectOutlets: function(router){
+        router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
       }
     }),
 
     aContributor: Ember.Route.extend({
       route: '/:githubUserName',
-      connnectOutlets: function(router, context){
-        router.get('applicationController').connnectOutlet('oneContributor', context);
+      connectOutlets: function(router, context){
+        router.get('applicationController').connectOutlet('oneContributor', context);
       }
     })
 
@@ -552,8 +552,8 @@ also going to rename 'index' to the more descriptive state name of
 
 <pre><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
-    connnectOutlets: function(router, context){
-      router.get('applicationController').connnectOutlet('oneContributor', context);
+    connectOutlets: function(router, context){
+      router.get('applicationController').connectOutlet('oneContributor', context);
     }
   })
 </code></pre>
