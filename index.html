@@ -7,7 +7,9 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/prism.css">
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/prism.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -86,7 +88,7 @@ are fucking shitting me.</p>
 
 <p>Here's an example of some of the view cleanup code in Rdio:</p>
 
-<pre><code>destroy: function () {
+<pre class="language-javascript"><code>destroy: function () {
   var c = this;
   this.unbind();
   try {
@@ -133,7 +135,7 @@ explore</a>.</p>
 
 <p>The smallest possible Ember application of interest can be describe thus:</p>
 
-<pre><code>App = Ember.Application.create();
+<pre class="language-javascript"><code>App = Ember.Application.create();
 
 App.ApplicationView = Ember.View.extend({
   templateName: 'application'
@@ -154,26 +156,32 @@ App.initialize();
 
 <p>And in our HTML document body or head:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="application"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="application"&gt;
 
 &lt;/script&gt;
 </code></pre>
 
 <p>Let's examine each piece in isolation.</p>
 
-<pre><code>App = Ember.Application.create();
+<pre class="language-javascript"><code>App = Ember.Application.create();
 </code></pre>
 
-<p>This line creates a new instance of <code>Ember.Application</code>. <code>Application</code> does two handy things:</p>
+<p>This line creates a new instance of <code class="language-javascript">Ember.Application</code>. <code class="language-javascript">Application</code> does two handy things:</p>
 
 <ul>
 <li>provides a single location for all your objects so we avoid <a href="https://www.google.com/search?q=don't+pollute+the+global+namespace">polluting the global namespace</a>.</li>
 <li>
 <p>creates a single listener for each user event (e.g. 'click') and <a href="https://www.google.com/search?q=event+delegation">controls event delegation</a>.</p>
 
-<p>App.ApplicationView = Ember.View.extend({
-  templateName: 'application'
-});</p>
+<p>
+  <pre class="language-javascript">
+    <code>
+      App.ApplicationView = Ember.View.extend({
+          templateName: 'application'
+      });
+    </code>
+  </pre>
+</p>
 </li>
 </ul><p>Views in Ember are responsible for:</p>
 
@@ -185,17 +193,17 @@ template, which will render as the contents of the view's tag, but we could also
 provide a different tag name, id, css class, or other HTML attributes for the
 rendered element.</p>
 
-<p>Your application <em>must</em> have an <code>ApplicationView</code> property. An instance of this
+<p>Your application <em>must</em> have an <code class="language-javascript">ApplicationView</code> property. An instance of this
 class will be created for you and inserted into the application's view hierarchy
 as the root view.</p>
 
-<pre><code>App.ApplicationController = Ember.Controller.extend();
+<pre class="language-javascript"><code>App.ApplicationController = Ember.Controller.extend();
 </code></pre>
 
 <p>Every view has a rendering context. This is the object where Handlebars
 templates will look for properties. So, if your template looks like this:</p>
 
-<pre><code>{{name}}
+<pre class="language-javascript"><code>{{name}}
 </code></pre>
 
 <p>and its rendering context has a <code>name</code> property, you'll see the value outputted.
@@ -209,7 +217,7 @@ would have no rendering context and would be pretty useless except for
 displaying static content. Ember enforces the presence of this property by
 throwing and error if it's missing.</p>
 
-<pre><code>App.Router = Ember.Router.extend({
+<pre class="language-javascript"><code>App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     index: Ember.Route.extend({
       route: '/'
@@ -238,7 +246,7 @@ side effect of state change.</p>
 observations and automatic view updates are handy, but if that's all Ember
 offered it would be only a fraction as useful for serious and robust development.</p>
 
-<pre><code>...
+<pre class="language-javascript"><code>...
 root: Ember.Route.extend({
   index: Ember.Route.extend({
     route: '/'
@@ -255,7 +263,7 @@ application loads, Ember will being looking through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url <code>'/'</code> your Router will automatically transition into this state.</p>
 
-<pre><code>App.initialize();
+<pre class="language-javascript"><code>App.initialize();
 </code></pre>
 
 <p>Finally, calling <code>initialize</code> on your application starts the application's
@@ -274,7 +282,7 @@ committers to the main Ember repository.</p>
 <p>Let's start that process by adding some markup and an <code>outlet</code> into our
 currently empty <code>application</code> template:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="application"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="application"&gt;
   &lt;h1&gt;Ember Committers&lt;/h1&gt;
   {{outlet}}
 &lt;/script&gt;
@@ -287,7 +295,7 @@ lets you express really nuanced view hierarchies with minimal effort.</p>
 
 <p>Next, add a view for all contributors and a matching controller and template:</p>
 
-<pre><code>App.AllContributorsController = Ember.ArrayController.extend();
+<pre class="language-javascript"><code>App.AllContributorsController = Ember.ArrayController.extend();
 App.AllContributorsView = Ember.View.extend({
   templateName: 'contributors'
 });
@@ -306,7 +314,7 @@ application's router. Within that method get the single instance of our
 <code>ApplicationController</code> class and connect its outlet with the <code>connnectOutlet</code>
 method:</p>
 
-<pre><code>index: Ember.Route.extend({
+<pre class="language-javascript"><code>index: Ember.Route.extend({
   route: '/',
   connnectOutlets: function(router){
     router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
@@ -332,7 +340,7 @@ of applications the two frameworks were specifically created for.</p>
 
 <p>Let's unpack our new code, in reverse:</p>
 
-<pre><code>index: Ember.Route.extend({
+<pre class="language-javascript"><code>index: Ember.Route.extend({
   route: '/',
   connnectOutlets: function(router){
     router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
@@ -365,7 +373,7 @@ two object literals, is set as the <code>content</code> of the controller instan
 who fear this kind of "magic" are free to read the documentation for Controllers
 to see the full, maximally verbose and explicit arguments you can pass).</p>
 
-<pre><code>App.AllContributorsController = Ember.ArrayController.extend();
+<pre class="language-javascript"><code>App.AllContributorsController = Ember.ArrayController.extend();
 App.AllContributorsView = Ember.View.extend({
   templateName: 'contributors'
 });
@@ -379,7 +387,7 @@ simply proxy undefined properties or methods to the underlying <code>content</co
 to the <code>content</code> of our ArrayController which I've hard-coded as an array of two
 object literals with a single property each.</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
   {{#each person in controller}}
     {{person.login}}
   {{/each}}
@@ -414,7 +422,7 @@ before. Let's step through how this works, once concern at a time.</p>
 <p>In our application so far, I've punted on data and just hard coded something
 into our index state:</p>
 
-<pre><code>index: Ember.Route.extend({
+<pre class="language-javascript"><code>index: Ember.Route.extend({
   route: '/',
   connnectOutlets: function(router){
     router.get('applicationController').connnectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
@@ -425,7 +433,7 @@ into our index state:</p>
 <p>I'd much prefer to delegate that data loading out to a proper object. Let's call
 to a – as yet unimplemented – <code>Contributor</code> class and a <code>find</code> method on that class:</p>
 
-<pre><code>index: Ember.Route.extend({
+<pre class="language-javascript"><code>index: Ember.Route.extend({
   route: '/',
   connnectOutlets: function(router){
     router.get('applicationController').connnectOutlet('allContributors', App.Contributor.find());
@@ -435,7 +443,7 @@ to a – as yet unimplemented – <code>Contributor</code> class and a <code>fin
 
 <p>And now implement this object:</p>
 
-<pre><code>App.Contributor = Ember.Object.extend();
+<pre class="language-javascript"><code>App.Contributor = Ember.Object.extend();
 App.Contributor.reopenClass({
   find: function(){}
 });
@@ -449,7 +457,7 @@ because we've set the <code>content</code> of our <code>AllContributorsControlle
 which is the default return value of our new <code>find</code> method. Let's apply some
 <code>$.ajax</code> to the method:</p>
 
-<pre><code>App.Contributor.reopenClass({
+<pre class="language-javascript"><code>App.Contributor.reopenClass({
   find: function(){
     $.ajax({
       url: 'https://api.github.com/repos/emberjs/ember.js/contributors',
@@ -470,7 +478,7 @@ StackOverflow question.</p>
 <p>There are a few solutions to this problem but the easiest for us now is to just
 make sure we're returning an array:</p>
 
-<pre><code>App.Contributor.reopenClass({
+<pre class="language-javascript"><code>App.Contributor.reopenClass({
   allContributors: [],
   find: function(){
     $.ajax({
@@ -512,7 +520,7 @@ and decoding, identity mapping, transactional communication, and more.</p>
 they see all contributors to a state where they see just one contributor. Our
 current router looks like this</p>
 
-<pre><code>App.Router = Ember.Router.extend({
+<pre class="language-javascript"><code>App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     index: Ember.Route.extend({
       route: '/',
@@ -528,7 +536,7 @@ current router looks like this</p>
 also going to rename 'index' to the more descriptive state name of
 'contributors':</p>
 
-<pre><code>App.Router = Ember.Router.extend({
+<pre class="language-javascript"><code>App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     contributors: Ember.Route.extend({
       route: '/',
@@ -550,7 +558,7 @@ also going to rename 'index' to the more descriptive state name of
 
 <p>Examining this new state in isolation:</p>
 
-<pre><code>  aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
     connnectOutlets: function(router, context){
       router.get('applicationController').connnectOutlet('oneContributor', context);
@@ -572,7 +580,7 @@ the application's state from 'contributors' to 'aContributor' through
 interaction. Currently our template just loops and prints the <code>login</code> property
 of each contributor:</p>
 
-<pre><code>  &lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
+<pre class="language-markup"><code>  &lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
     {{#each person in controller}}
       {{person.login}}
     {{/each}}
@@ -582,7 +590,7 @@ of each contributor:</p>
 <p>We're going to encase that login in an <code>&lt;a&gt;</code> tag that includes a call to the
 <code>{{action}}</code> helper:</p>
 
-<pre><code>  &lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
+<pre class="language-markup"><code>  &lt;script type="text/x-handlebars" data-template-name="contributors"&gt;
     {{#each person in controller}}
       &lt;a {{action showContributor person}}&gt; {{person.login}} &lt;/a&gt;
     {{/each}}
@@ -604,7 +612,7 @@ root.contributors'.</p>
 between route property definition and route API callbacks like
 <code>connnectOutlets</code>:</p>
 
-<pre><code>contributors: Ember.Route.extend({
+<pre class="language-javascript"><code>contributors: Ember.Route.extend({
   route: '/',
 
   showContributor: Ember.Route.transitionTo('aContributor'),
@@ -628,7 +636,7 @@ the missing view class.</p>
 
 <p>Implement this class and matching controller and template:</p>
 
-<pre><code>App.OneContributorView = Ember.View.extend({
+<pre class="language-javascript"><code>App.OneContributorView = Ember.View.extend({
   template: 'a-contributor'
 });
 App.OneContributorController = Ember.ObjectController.extend();
@@ -648,7 +656,7 @@ for single objects instead of collections.</p>
 success. It might be handy to enable logging on your router to get a better feel
 for what is happening on transitions:</p>
 
-<pre><code>App.Router = Ember.Router.extend({
+<pre class="language-javascript"><code>App.Router = Ember.Router.extend({
    enableLogging: true,
    // other properties added earlier
 })
@@ -672,7 +680,7 @@ transitions the router to the name state ('aContributor') and calls its
 <code>connnectOutlets</code> callback with the router as the first argument and the context
 from the <code>{{action}}</code> helper as the second argument:</p>
 
-<pre><code>connnectOutlets: function(route, context){
+<pre class="language-javascript"><code>connnectOutlets: function(route, context){
   router.get('applicationController').connnectOutlet('oneContributor', context);
 }
 </code></pre>
@@ -708,7 +716,7 @@ dynamic slugs in the supplied <code>route</code> property as keys.</p>
 slugs that match known properties on the object or implement our own custom
 method.</p>
 
-<pre><code>aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>aContributor: Ember.Route.extend({
   route: '/:githubUserName',
   connnectOutlets: function(route, context){
     router.get('applicationController').connnectOutlet('oneContributor', context);
@@ -746,7 +754,7 @@ re-access this data. States have a callback <code>deserialize</code> for doing j
 There's a default implementation, but we can implement our own custom one as
 well:</p>
 
-<pre><code>aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>aContributor: Ember.Route.extend({
   route: '/:githubUserName',
   connnectOutlets: function(route, context){
     router.get('applicationController').connnectOutlet('oneContributor', context);
@@ -774,7 +782,7 @@ users in the context of a repository we'll need to load them all and locally
 find the one we're looking for. This isn't exactly ideal, but unless you
 control development of both client and server it's typical.</p>
 
-<pre><code>findOne: function(username){
+<pre class="language-javascript"><code>findOne: function(username){
   var contributor = App.Contributor.create({
     login: username
   });
@@ -809,7 +817,7 @@ add a "back to all contributors" navigation to our template for a single contrib
 
 <p>Right now the template is pretty simple:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   {{login}} - {{contributions}} contributions to Ember.js
 &lt;/script&gt;
 </code></pre>
@@ -817,7 +825,7 @@ add a "back to all contributors" navigation to our template for a single contrib
 <p>Let's add an element with an action to transition back to the 'contributors'
 state:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   &lt;div&gt;
     &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
   &lt;/div&gt;
@@ -827,7 +835,7 @@ state:</p>
 
 <p>Add this action to the 'aContributor' state:</p>
 
-<pre><code>aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>aContributor: Ember.Route.extend({
   route: '/:githubUserName',
 
   showAllContributors: Ember.Route.transitionTo('contributors')
@@ -852,7 +860,7 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 
 <p>For reference, the 'aContributor' state looks like this:</p>
 
-<pre><code>  aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
     connnectOutlets: function(route, context){
       router.get('applicationController').connnectOutlet('oneContributor', context);
@@ -868,7 +876,7 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 
 <p>And we'll change it to this:</p>
 
-<pre><code>  aContributor: Ember.Route.extend({
+<pre class="language-javascript"><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
     connnectOutlets: function(route, context){
       router.get('applicationController').connnectOutlet('oneContributor', context);
@@ -899,7 +907,7 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 
 <p>Examining each state in isolation:</p>
 
-<pre><code>initialState: 'details',
+<pre class="language-javascript"><code>initialState: 'details',
 details: Ember.Route.extend({
   route: '/',
   connnectOutlets: function(router){
@@ -921,7 +929,7 @@ argument to <code>connnectOutlet</code> and it becomes the <code>content</code> 
 <p>Then, because we have <code>initialState</code> defined the router immediately transitions
 into the state 'aContributor.details' and calls its <code>connnectOutlets</code> callback:</p>
 
-<pre><code>connnectOutlets: function(router){
+<pre class="language-javascript"><code>connnectOutlets: function(router){
   router.get('oneContributorController').connectOutlet('details');
 }
 </code></pre>
@@ -930,7 +938,7 @@ into the state 'aContributor.details' and calls its <code>connnectOutlets</code>
 template for a contributor (yes, outlets can be nested inside other outlets as
 deeply as you'd like to). Go ahead and change</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   &lt;div&gt;
     &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
   &lt;/div&gt;
@@ -940,7 +948,7 @@ deeply as you'd like to). Go ahead and change</p>
 
 <p>to</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   &lt;div&gt;
     &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
   &lt;/div&gt;
@@ -958,7 +966,7 @@ rendering context of the parent template, which in our case is the shared
 instance of <code>OneContributorController</code> with its <code>context</code> property already set
 to the contributor we're interested in:</p>
 
-<pre><code>App.DetailsView = Ember.View.extend({
+<pre class="language-javascript"><code>App.DetailsView = Ember.View.extend({
   templateName: 'details'
 })
 
@@ -976,7 +984,7 @@ comes from Github. We'll need to trigger a call to Github when we enter this
 state to fetch additional details. Let's stub out a call to this in the
 <code>connectOutlets</code> for 'aContributor.details':</p>
 
-<pre><code>connnectOutlets: function(router){
+<pre class="language-javascript"><code>connnectOutlets: function(router){
   router.get('oneContributorController.content').loadMoreDetails();
   router.get('oneContributorController').connectOutlet('details');
 }
@@ -984,7 +992,7 @@ state to fetch additional details. Let's stub out a call to this in the
 
 <p>And add this method to our <code>Contributor</code> model:</p>
 
-<pre><code>App.Contributor = Ember.Object.extend({
+<pre class="language-javascript"><code>App.Contributor = Ember.Object.extend({
   loadMoreDetails: function(){
     $.ajax({
       url: 'https://api.github.com/users/%@'.fmt(this.get('login')),
@@ -1008,7 +1016,7 @@ and transition to this state again to see the updated view.</p>
 Update our view to provide some navigational elements. Currently it looks like
 this:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   &lt;div&gt;
     &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
   &lt;/div&gt;
@@ -1022,7 +1030,7 @@ this:</p>
 
 <p>And after we've added two actions:</p>
 
-<pre><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
+<pre class="language-markup"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
   &lt;div&gt;
     &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
   &lt;/div&gt;
@@ -1042,7 +1050,7 @@ this:</p>
 <p>Create the new transitions. I've placed them both within the 'aContributor'
 state itself:</p>
 
-<pre><code>  aContributor: Ember.Route.extend({       
+<pre class="language-javascript"><code>  aContributor: Ember.Route.extend({       
     showDetails: Ember.Route.transitionTo('details'),
     showRepos: Ember.Route.transitionTo('repos')
 
@@ -1054,7 +1062,7 @@ state itself:</p>
 throw an error because we're missing <code>ReposView</code>, which Ember is attempting to
 find because of our <code>connectOutlet</code> call on router's <code>oneContributorController</code>:</p>
 
-<pre><code>  connnectOutlets: function(router){
+<pre class="language-javascript"><code>  connnectOutlets: function(router){
     router.get('oneContributorController').connectOutlet('repos')
   }
 </code></pre>
@@ -1063,7 +1071,7 @@ find because of our <code>connectOutlet</code> call on router's <code>oneContrib
 the shared <code>OneContributorController</code> instance as the rendering context for this
 view:</p>
 
-<pre><code>  App.ReposView = Ember.View.extend({
+<pre class="language-javascript"><code>  App.ReposView = Ember.View.extend({
     templateName: 'repos'
   })
 
@@ -1086,7 +1094,7 @@ of repos. As with 'aContributor.details' we need to request the appropriate data
 to display. Update the <code>connectOutlets</code> of 'aContributor.details' to include a
 stubbed method for fetching repos:</p>
 
-<pre><code>  connnectOutlets: function(router){
+<pre class="language-javascript"><code>  connnectOutlets: function(router){
     router.get('oneContributorController.content').loadRepos();
     router.get('oneContributorController').connectOutlet('repos');
   }
@@ -1094,7 +1102,7 @@ stubbed method for fetching repos:</p>
 
 <p>And implement this method on our <code>App.Contributor</code> model:</p>
 
-<pre><code>  App.Contributor = Ember.Object.extend({
+<pre class="language-javascript"><code>  App.Contributor = Ember.Object.extend({
     loadRepos: function(){
       $.ajax({
         url: 'https://api.github.com/users/%@/repos'.fmt(this.get('login')),
