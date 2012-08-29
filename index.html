@@ -90,11 +90,11 @@ are fucking shitting me.</p>
   var c = this;
   this.unbind();
   try {
-    this._element.pause(), 
-    this._element.removeEventListener("error", this._triggerError), 
-    this._element.removeEventListener("ended", this._triggerEnd), 
-    this._element.removeEventListener("canplay", this._triggerReady), 
-    this._element.removeEventListener("loadedmetadata", this._onLoadedMetadata), 
+    this._element.pause(),
+    this._element.removeEventListener("error", this._triggerError),
+    this._element.removeEventListener("ended", this._triggerEnd),
+    this._element.removeEventListener("canplay", this._triggerReady),
+    this._element.removeEventListener("loadedmetadata", this._onLoadedMetadata),
     _.each(b, function (a) {
       c._element.removeEventListener(a, c._bubbleProfilingEvent)
     }),
@@ -280,7 +280,7 @@ currently empty <code>application</code> template:</p>
 &lt;/script&gt;
 </code></pre>
 
-<p>An <code>outlet</code> helper defines sections of an template where we will change specific
+<p>An <code>outlet</code> helper defines sections of a template where we will change specific
 portions of the view hierarchy in response to state change. Any template (not
 just the root one) can have any number of outlets (if you give them names). This
 lets you express really nuanced view hierarchies with minimal effort.</p>
@@ -406,10 +406,10 @@ previously used.</p>
 
 <p>The best advice I can offer is: always be returning.</p>
 
-<p>Ember relies on the immediate availability of data objects even of the
+<p>Ember relies on the immediate availability of data objects even if the
 underlying content of those objects is still loading. This is almost certainly
 different than asynchronous patterns for data loading you've used
-before. Let's step through how this works, once concern at a time.</p>
+before. Let's step through how this works, one concern at a time.</p>
 
 <p>In our application so far, I've punted on data and just hard coded something
 into our index state:</p>
@@ -666,7 +666,7 @@ second argument to <code>{{action}}</code> as a context argument. If it's not pr
 router will walk up through the state tree towards <code>root</code> looking for a matching
 action name.</p>
 
-<p>Since our state <em>does</em> have a matching name, 
+<p>Since our state <em>does</em> have a matching name,
 <code>showContributor: Ember.Route.transitionTo('aContributor')</code>, it's called. This function
 transitions the router to the name state ('aContributor') and calls its
 <code>connnectOutlets</code> callback with the router as the first argument and the context
@@ -692,7 +692,7 @@ controller to this <code>content</code>.</p>
 
 <h2>Serializing and Deserializing States</h2>
 
-<p>Observant readers will notice that, although we supplied a <code>route: '/:githubUserName'</code> 
+<p>Observant readers will notice that, although we supplied a <code>route: '/:githubUserName'</code>
 property on our current state, the URL displayed
 in the browser has updated to a value of '#/undefined'. I mentioned
 earlier that URLs were just a pleasant side effect of state changes
@@ -723,8 +723,8 @@ method.</p>
 keys that match any dynamic slugs in the supplied <code>route</code>. The value for these
 keys will be placed in the url.</p>
 
-<p>Browse back to the root state of your application (i.e. go back to '/'), 
-reload the application, and navigate back to the 'aContributor' state for any 
+<p>Browse back to the root state of your application (i.e. go back to '/'),
+reload the application, and navigate back to the 'aContributor' state for any
 contributor. The url should update properly.</p>
 
 <p>Unfortunately if you reload the application at this particular state you'll see
@@ -760,7 +760,7 @@ well:</p>
 })
 </code></pre>
 
-<p>Above, I'm mocked out what I want this deserialization interface to look like.
+<p>Above, I've mocked out what I want this deserialization interface to look like.
 I'll call <code>App.Contributor.findOne</code> with the section of our url represented by
 <code>githubUserName</code> and return this object. The return value of <code>deserialize</code>
 becomes the <code>context</code> passed to <code>connnectOutlets</code>, so I must immediately return
@@ -793,7 +793,7 @@ control development of both client and server it's typical.</p>
 </code></pre>
 
 <p>The order of execution for this method is: create a new <code>Contributor</code> object with
-<code>login</code> set immediately to the know value passed in as <code>username</code> from within
+<code>login</code> set immediately to the known value passed in as <code>username</code> from within
 the 'aContributor' states's deserialize method. Then we set up some ajax and
 immediately return the <code>Contributor</code> instance. When the ajax completes we find
 just the contributor we're interested in and update the returned <code>Contributor</code>
@@ -805,7 +805,7 @@ any sections bound to properties whose values have changed.</p>
 <p>That's an Ember application. States, transitioning between them, and
 loading data when you need it. You can build up surprisingly sophisticated and
 robust UIs by repeating this process until you're happy. Let's repeat this by
-add a "back to all contributors" navigation to our template for a single contributor:</p>
+adding a "back to all contributors" navigation to our template for a single contributor:</p>
 
 <p>Right now the template is pretty simple:</p>
 
@@ -909,7 +909,7 @@ details: Ember.Route.extend({
 </code></pre>
 
 <p>When we transition into 'aContributor' its callbacks (<code>connnectOutlets</code>,
-<code>serialize</code>, optionally <code>deserialize</code> is we're transitioning during application
+<code>serialize</code>, optionally <code>deserialize</code> if we're transitioning during application
 load) are called. This means the <code>{{outlet}}</code> in our application template is
 filled with an instance of <code>OneContributorView</code> with the the shared instance of
 <code>OneContributorController</code> used as its default rendering context. The <code>context</code>
@@ -1042,7 +1042,7 @@ this:</p>
 <p>Create the new transitions. I've placed them both within the 'aContributor'
 state itself:</p>
 
-<pre><code>  aContributor: Ember.Route.extend({       
+<pre><code>  aContributor: Ember.Route.extend({
     showDetails: Ember.Route.transitionTo('details'),
     showRepos: Ember.Route.transitionTo('repos')
 
@@ -1130,7 +1130,7 @@ nice API).</p>
 
 <p>You made it through all my ranting and odd turns of phrase, so I'll share
 my <a href="https://twitter.com/trek/status/239063773846052864">secret</a> vision
-for Ember: I want Ember to be a gateway drug for good UI 
+for Ember: I want Ember to be a gateway drug for good UI
 engineering the way Rails was for good application development. You may
 scoff – "Rails is bloated, I prefer express.js" – but express is just
 stealing the best tricks from years of battle tested Rails experimentation.</p>
@@ -1146,7 +1146,7 @@ odd, new, or frighteningly different.</p>
 <p>Copy-editing and proofing graciously provided by
 <a href="https://twitter.com/frodsan">@frodsan</a>,
 <a href="https://twitter.com/patrickbaselier">@patrickbaselier</a>, and
-<a href="https://twitter.com/edimoldovan">@edimoldovan</a>. 
+<a href="https://twitter.com/edimoldovan">@edimoldovan</a>.
 Remaining foolish errors or omissions are mine.</p>
 </blockquote>
       </section>
@@ -1155,6 +1155,6 @@ Remaining foolish errors or omissions are mine.</p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+
   </body>
 </html>
