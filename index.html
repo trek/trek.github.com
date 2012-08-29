@@ -540,7 +540,7 @@ also going to rename 'index' to the more descriptive state name of
     aContributor: Ember.Route.extend({
       route: '/:githubUserName',
       connnectOutlets: function(router, context){
-        router.get('applicationController').connnectOutlet('allContributors', context);
+        router.get('applicationController').connnectOutlet('oneContributor', context);
       }
     })
 
