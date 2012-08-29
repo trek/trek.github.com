@@ -1,9 +1,0 @@
---- 
-layout: default
-title: Hello
----
-
-I’m a web developer, consultant, and sometimes instructor in Ann Arbor, MI.  I’ve been fortunate enough to have done some cool things like get my masters degree in Human Computer Interaction, become an accredited librarian, work for a crazy web startup, win an Apple Design Award, and help found a [coworking site](http://workantile.com).
-
-You can get a hold of me at trek.glowacki (at) gmail.com
-Follow me on [twitter](http://twitter.com/trek) or [github](http://github.com/trek), and make friends on [facebook](http://facebook.com/trek.glowacki)
