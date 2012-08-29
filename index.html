@@ -478,7 +478,7 @@ make sure we're returning an array:</p>
       dataType: 'jsonp',
       context: this,
       success: function(response){
-        App.Contributor.allContributors.addObjects(response.data);
+        this.allContributors.addObjects(response.data);
     })
     return this.allContributors;
   }
