@@ -794,7 +794,7 @@ control development of both client and server it's typical.</p>
     <span class="nx">dataType</span><span class="o">:</span> <span class="s1">'jsonp'</span><span class="p">,</span>
     <span class="nx">context</span><span class="o">:</span> <span class="nx">contributor</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">filterProperty</span><span class="p">(</span><span class="s1">'login'</span><span class="p">,</span> <span class="nx">username</span><span class="p">));</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">findProperty</span><span class="p">(</span><span class="s1">'login'</span><span class="p">,</span> <span class="nx">username</span><span class="p">));</span>
     <span class="p">}</span>
   <span class="p">})</span>
 
@@ -806,7 +806,8 @@ control development of both client and server it's typical.</p>
 <code>login</code> set immediately to the known value passed in as <code>username</code> from within
 the 'aContributor' states's deserialize method. Then we set up some ajax and
 immediately return the <code>Contributor</code> instance. When the ajax completes we find
-just the contributor we're interested in and update the returned <code>Contributor</code>
+just the contributor we're interested in by looking for the first result with a
+a matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
 instance's properties with <code>setProperties</code>, which will trigger a view update of
 any sections bound to properties whose values have changed.</p>
 
