@@ -168,14 +168,14 @@ App.initialize();
 
 <ul>
 <li>provides a single location for all your objects so we avoid <a href="https://www.google.com/search?q=don't+pollute+the+global+namespace">polluting the global namespace</a>.</li>
-<li>
-<p>creates a single listener for each user event (e.g. 'click') and <a href="https://www.google.com/search?q=event+delegation">controls event delegation</a>.</p>
+<li>creates a single listener for each user event (e.g. 'click') and <a href="https://www.google.com/search?q=event+delegation">controls event delegation</a>.</li>
+</ul>
 
-<p>App.ApplicationView = Ember.View.extend({
+<pre><code>App.ApplicationView = Ember.View.extend({
   templateName: 'application'
-});</p>
-</li>
-</ul><p>Views in Ember are responsible for:</p>
+});</code></pre>
+
+<p>Views in Ember are responsible for:</p>
 
 <ul>
 <li>determining the structure of a section of the application's rendered HTML.</li>
