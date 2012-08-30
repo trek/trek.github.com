@@ -559,10 +559,10 @@ also going to rename 'index' to the more descriptive state name of
 </code></pre>
 
 <p>I've supplied a <code>route</code> property of <code>':/githubUserName'</code>, which we'll use later
-to serialize and deserialize this state. I've implemented the <code>connnectOutlets</code>
+to serialize and deserialize this state. I've implemented the <code>connectOutlets</code>
 method with two arguments: one to represent the entire router and one, called
 <code>context</code>, which will help answer the question "<em>which</em> contributor" later on.
-Inside <code>connnectOutlets</code> I've accessed the shared instance of
+Inside <code>connectOutlets</code> I've accessed the shared instance of
 <code>ApplicationController</code> and used it to connect the outlet in its view (an
 instance of <code>ApplicationView</code>) to a pairing of
 <code>OneContributorView</code>/<code>OneContributorController</code>, which are unimplemented.</p>
@@ -602,15 +602,15 @@ root.contributors'.</p>
 
 <p>Add this transition action to the 'contributors' state. I like to put my actions
 between route property definition and route API callbacks like
-<code>connnectOutlets</code>:</p>
+<code>connectOutlets</code>:</p>
 
 <pre><code>contributors: Ember.Route.extend({
   route: '/',
 
   showContributor: Ember.Route.transitionTo('aContributor'),
 
-  connnectOutlets: function(router){
-    router.get('applicationController').connnectOutlet('allContributors', App.Contributor.find());
+  connectOutlets: function(router){
+    router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
   }
 })
 </code></pre>
@@ -622,7 +622,7 @@ a lot of similar looking functions.</p>
 
 <p>Pop back to the browser, reload the application, and try to transition again.
 This time, you'll be warned that we're missing our <code>OneContributorView</code> class.
-The transition has occurred and we've reached the <code>connnectOutlets</code> callback
+The transition has occurred and we've reached the <code>connectOutlets</code> callback
 on the 'aContributor' state, but cannot properly connect our outlet yet without
 the missing view class.</p>
 
@@ -669,11 +669,11 @@ action name.</p>
 <p>Since our state <em>does</em> have a matching name, 
 <code>showContributor: Ember.Route.transitionTo('aContributor')</code>, it's called. This function
 transitions the router to the name state ('aContributor') and calls its
-<code>connnectOutlets</code> callback with the router as the first argument and the context
+<code>connectOutlets</code> callback with the router as the first argument and the context
 from the <code>{{action}}</code> helper as the second argument:</p>
 
-<pre><code>connnectOutlets: function(route, context){
-  router.get('applicationController').connnectOutlet('oneContributor', context);
+<pre><code>connectOutlets: function(route, context){
+  router.get('applicationController').connectOutlet('oneContributor', context);
 }
 </code></pre>
 
@@ -698,7 +698,7 @@ in the browser has updated to a value of '#/undefined'. I mentioned
 earlier that URLs were just a pleasant side effect of state changes
 but we haven't talked about serializing and deserializing states yet.</p>
 
-<p>After an application state is entered and <code>connnectOutlets</code> has been called, the
+<p>After an application state is entered and <code>connectOutlets</code> has been called, the
 router will call <code>serialize</code> on the state with the router itself as the first
 argument and the current context as the second argument. There is a default
 implementation of <code>serialize</code> that does property lookup on the context using any
@@ -710,8 +710,8 @@ method.</p>
 
 <pre><code>aContributor: Ember.Route.extend({
   route: '/:githubUserName',
-  connnectOutlets: function(route, context){
-    router.get('applicationController').connnectOutlet('oneContributor', context);
+  connectOutlets: function(route, context){
+    router.get('applicationController').connectOutlet('oneContributor', context);
   },
   serialize: function(router, context){
     return {githubUserName: context.get('login')}
@@ -732,9 +732,9 @@ the URL updates to '#/undefined' again.</p>
 
 <p>When we load an Ember application at a particular url it will attempt to match
 and transition into a state with matching <code>route</code> pattern and call the state's
-<code>connnectOutlets</code> and <code>serialize</code> callbacks. When we reload at '#/kselden', for
+<code>connectOutlets</code> and <code>serialize</code> callbacks. When we reload at '#/kselden', for
 example, The router matches to the state with the <code>route</code> pattern of
-'/:githubUserName', transitions into it, then calls <code>connnectOutlets</code> with the
+'/:githubUserName', transitions into it, then calls <code>connectOutlets</code> with the
 router as the first argument and a second argument of ... no context at all.
 Finally, <code>serialize</code> is called, also with an <code>undefined</code> context, and the
 property <code>githubUserName</code> is accessed on <code>undefined</code> and the URL is updated to
@@ -748,8 +748,8 @@ well:</p>
 
 <pre><code>aContributor: Ember.Route.extend({
   route: '/:githubUserName',
-  connnectOutlets: function(route, context){
-    router.get('applicationController').connnectOutlet('oneContributor', context);
+  connectOutlets: function(route, context){
+    router.get('applicationController').connectOutlet('oneContributor', context);
   },
   serialize: function(router, context){
     return {githubUserName: context.get('login')}
@@ -763,7 +763,7 @@ well:</p>
 <p>Above, I'm mocked out what I want this deserialization interface to look like.
 I'll call <code>App.Contributor.findOne</code> with the section of our url represented by
 <code>githubUserName</code> and return this object. The return value of <code>deserialize</code>
-becomes the <code>context</code> passed to <code>connnectOutlets</code>, so I must immediately return
+becomes the <code>context</code> passed to <code>connectOutlets</code>, so I must immediately return
 an object that will get populated with data later. Let's add
 <code>App.Contributor.findOne</code> to allow for passing a Github user name. </p>
 
@@ -854,8 +854,8 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 
 <pre><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
-    connnectOutlets: function(route, context){
-      router.get('applicationController').connnectOutlet('oneContributor', context);
+    connectOutlets: function(route, context){
+      router.get('applicationController').connectOutlet('oneContributor', context);
     },
     serialize: function(router, context){
       return {githubUserName: context.get('login')}
@@ -870,8 +870,8 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 
 <pre><code>  aContributor: Ember.Route.extend({
     route: '/:githubUserName',
-    connnectOutlets: function(route, context){
-      router.get('applicationController').connnectOutlet('oneContributor', context);
+    connectOutlets: function(route, context){
+      router.get('applicationController').connectOutlet('oneContributor', context);
     },
     serialize: function(router, context){
       return {githubUserName: context.get('login')}
@@ -884,13 +884,13 @@ and a second – 'repos' – for showing a list of their repositories.</p>
     initialState: 'details',
     details: Ember.Route.extend({
       route: '/',
-      connnectOutlets: function(router){
+      connectOutlets: function(router){
         router.get('oneContributorController').connectOutlet('details');
       }
     }),
     repos: Ember.Route.extend({
       route: '/repos',
-      connnectOutlets: function(router){
+      connectOutlets: function(router){
         router.get('oneContributorController').connectOutlet('repos');
       }
     })
@@ -902,26 +902,26 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 <pre><code>initialState: 'details',
 details: Ember.Route.extend({
   route: '/',
-  connnectOutlets: function(router){
+  connectOutlets: function(router){
     router.get('oneContributorController').connectOutlet('details');
   }
 })
 </code></pre>
 
-<p>When we transition into 'aContributor' its callbacks (<code>connnectOutlets</code>,
+<p>When we transition into 'aContributor' its callbacks (<code>connectOutlets</code>,
 <code>serialize</code>, optionally <code>deserialize</code> is we're transitioning during application
 load) are called. This means the <code>{{outlet}}</code> in our application template is
 filled with an instance of <code>OneContributorView</code> with the the shared instance of
 <code>OneContributorController</code> used as its default rendering context. The <code>context</code>
 argument is passed from the <code>{{action showContributor contributor}}</code>, through
 the transition, and into this callback. We then pass it along as the second
-argument to <code>connnectOutlet</code> and it becomes the <code>content</code> property of the shared
+argument to <code>connectOutlet</code> and it becomes the <code>content</code> property of the shared
 <code>OneContributorController</code> instance.</p>
 
 <p>Then, because we have <code>initialState</code> defined the router immediately transitions
-into the state 'aContributor.details' and calls its <code>connnectOutlets</code> callback:</p>
+into the state 'aContributor.details' and calls its <code>connectOutlets</code> callback:</p>
 
-<pre><code>connnectOutlets: function(router){
+<pre><code>connectOutlets: function(router){
   router.get('oneContributorController').connectOutlet('details');
 }
 </code></pre>
@@ -976,7 +976,7 @@ comes from Github. We'll need to trigger a call to Github when we enter this
 state to fetch additional details. Let's stub out a call to this in the
 <code>connectOutlets</code> for 'aContributor.details':</p>
 
-<pre><code>connnectOutlets: function(router){
+<pre><code>connectOutlets: function(router){
   router.get('oneContributorController.content').loadMoreDetails();
   router.get('oneContributorController').connectOutlet('details');
 }
@@ -1054,7 +1054,7 @@ state itself:</p>
 throw an error because we're missing <code>ReposView</code>, which Ember is attempting to
 find because of our <code>connectOutlet</code> call on router's <code>oneContributorController</code>:</p>
 
-<pre><code>  connnectOutlets: function(router){
+<pre><code>  connectOutlets: function(router){
     router.get('oneContributorController').connectOutlet('repos')
   }
 </code></pre>
@@ -1086,7 +1086,7 @@ of repos. As with 'aContributor.details' we need to request the appropriate data
 to display. Update the <code>connectOutlets</code> of 'aContributor.details' to include a
 stubbed method for fetching repos:</p>
 
-<pre><code>  connnectOutlets: function(router){
+<pre><code>  connectOutlets: function(router){
     router.get('oneContributorController.content').loadRepos();
     router.get('oneContributorController').connectOutlet('repos');
   }
