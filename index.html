@@ -714,7 +714,7 @@ method.</p>
     router.get('applicationController').connnectOutlet('oneContributor', context);
   },
   serialize: function(router, context){
-    return {githubUserName: context.get('login')}
+    return {githubUserName: context['login']}
   }
 })
 </code></pre>
