@@ -305,13 +305,13 @@ lets you express really nuanced view hierarchies with minimal effort.</p>
 <p>Within the state that matches for the index path (<code>'/'</code>), implement a
 <code>connectOutlets</code> method. It takes a single argument that will be your
 application's router. Within that method get the single instance of our
-<code>ApplicationController</code> class and connect its outlet with the <code>connnectOutlet</code>
+<code>ApplicationController</code> class and connect its outlet with the <code>connectOutlet</code>
 method:</p>
 
 <div class="highlight"><pre><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -337,7 +337,7 @@ of applications the two frameworks were specifically created for.</p>
 <div class="highlight"><pre><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -348,7 +348,7 @@ is called on this state. It acts as a callback for us to connect sections of our
 view hierarchy (designated with <code>{{outlet}}</code>) to specific views based on the
 state. In this case I want to connect the <code>{{outlet}}</code> in our application
 template with markup for all our contributors so I access the application's
-single shared instance of <code>ApplicationController</code> and call <code>connnectOutlet</code> on
+single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
 it with <code>'allContributors'</code> as an argument.</p>
 
 <p>When our application is <code>initialize</code>ed, a single shared instance of each
@@ -358,7 +358,7 @@ matches the controller's classname but converted to lower-camel style:
 <code>ApplicationController</code>'s single instance is stored as <code>applicationController</code>.</p>
 
 <p>Controllers have the ability to connect outlets in the views they control. In the
-above example, I'm calling <code>connnectOutlet</code> with <code>'allContributors'</code> as an argument.
+above example, I'm calling <code>connectOutlet</code> with <code>'allContributors'</code> as an argument.
 This will create an instance of <code>AllContributorsView</code> for us, set the shared instance of
 <code>AllContributorsController</code> as the view's default rendering context, and insert
 it into our view hierarchy at the point where <code>{{outlet}}</code> appears in the
@@ -419,7 +419,7 @@ into our index state:</p>
 <div class="highlight"><pre><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'wycats'</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">'tomdale'</span><span class="p">}]);</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -430,7 +430,7 @@ to a – as yet unimplemented – <code>Contributor</code> class and a <code>fin
 <div class="highlight"><pre><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -524,7 +524,7 @@ current router looks like this</p>
     <span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
       <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
       <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
       <span class="p">}</span>
     <span class="p">})</span>
   <span class="p">})</span>
@@ -540,14 +540,14 @@ also going to rename 'index' to the more descriptive state name of
     <span class="nx">contributors</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
       <span class="nx">route</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
       <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
       <span class="p">}</span>
     <span class="p">}),</span>
 
     <span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
       <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
       <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
       <span class="p">}</span>
     <span class="p">})</span>
 
@@ -560,7 +560,7 @@ also going to rename 'index' to the more descriptive state name of
 <div class="highlight"><pre><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -617,7 +617,7 @@ between route property definition and route API callbacks like
   <span class="nx">showContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">'aContributor'</span><span class="p">),</span>
 
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'allContributors'</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
@@ -681,7 +681,7 @@ transitions the router to the name state ('aContributor') and calls its
 from the <code>{{action}}</code> helper as the second argument:</p>
 
 <div class="highlight"><pre><span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -719,7 +719,7 @@ method.</p>
 <div class="highlight"><pre><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
   <span class="p">},</span>
   <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
     <span class="k">return</span> <span class="p">{</span>
@@ -759,7 +759,7 @@ well:</p>
 <div class="highlight"><pre><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
   <span class="p">},</span>
   <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
     <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'login'</span><span class="p">)}</span>
@@ -866,7 +866,7 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 <div class="highlight"><pre><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
   <span class="p">},</span>
   <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
     <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'login'</span><span class="p">)}</span>
@@ -882,7 +882,7 @@ and a second – 'repos' – for showing a list of their repositories.</p>
 <div class="highlight"><pre><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">route</span><span class="o">:</span> <span class="s1">'/:githubUserName'</span><span class="p">,</span>
   <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
-    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connnectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'applicationController'</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">'oneContributor'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
   <span class="p">},</span>
   <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
     <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'login'</span><span class="p">)}</span>
@@ -926,7 +926,7 @@ filled with an instance of <code>OneContributorView</code> with the shared insta
 <code>OneContributorController</code> used as its default rendering context. The <code>context</code>
 argument is passed from the <code>{{action showContributor contributor}}</code>, through
 the transition, and into this callback. We then pass it along as the second
-argument to <code>connnectOutlet</code> and it becomes the <code>content</code> property of the shared
+argument to <code>connectOutlet</code> and it becomes the <code>content</code> property of the shared
 <code>OneContributorController</code> instance.</p>
 
 <p>Then, because we have <code>initialState</code> defined the router immediately transitions
