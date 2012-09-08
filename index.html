@@ -66,7 +66,7 @@ these are all foreign or novel concepts for you. Even if you've encountered them
 before in a CS class or while doing iOS development you've probably never
 translated them into the browser environment.</p>
 
-<p>Listen: it's not Ember that's hard. It's the concepts. When people tell me the
+<p>Listen: it's not Ember that's hard, it's the concepts. When people tell me the
 learning curve for Angular or Backbone is small, I call bullshit. Small for whom? Sure,
 Backbone is approachable if you've spent some time writing applications with jQuery
 and are familiar with callback-style evented architectures. Backbone's DNA is
@@ -121,9 +121,9 @@ comparison. Although their output is the same (i.e. a "web app") they just don't
 belong in the same category.</p>
 
 <p>I apologize for the long preamble, but we're going to explore some concepts and
-I want to be sure you're willing to allow that their strangeness is not due to
+I want to be sure you're willing to allow that their strangeness are not due to
 the poor architecture of Ember but to your unfamiliarity with them. If you're
-willing to learn no matter how funky weird things appear at first, read on. If
+willing to learn, no matter how funky weird things appear at first, read on. If
 you're looking to troll then just skim on: you'll find <em>lots</em> of things to
 highlight <a href="https://twitter.com/delambro/status/234997274051219456">when you create a troll twitter account with a single post maligning
 a tool you've never bothered to
@@ -164,7 +164,7 @@ explore</a>.</p>
 <div class="highlight"><pre><span class="nx">App</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
 </pre></div>
 
-<p>This line creates a new instance of <code>Ember.Application</code>. <code>Application</code> does two handy things:</p>
+<p>This line creates a new instance of <code>Ember.Application</code> which does two handy things:</p>
 
 <ul>
 <li>provides a single location for all your objects so we avoid <a href="https://www.google.com/search?q=don't+pollute+the+global+namespace">polluting the global namespace</a>.</li>
@@ -181,8 +181,10 @@ explore</a>.</p>
 <ul>
 <li>determining the structure of a section of the application's rendered HTML.</li>
 <li>responding to delegated user events.</li>
-</ul><p>In the above view we will change structure of the page only through the view's
-template, which will render as the contents of the view's tag, but we could also
+</ul>
+
+<p>In the above view we will change the structure of the page only through the view's
+template, which will render as the contents of the view's tag. We could also
 provide a different tag name, id, css class, or other HTML attributes for the
 rendered element.</p>
 
@@ -252,7 +254,7 @@ offered it would be only a fraction as useful for serious and robust development
 container for all subsequent routes. You can think of it as the route set,
 rather than a proper route itself. The second <code>index</code>, can be called whatever
 you like. The key feature is that it has a <code>route</code> property of <code>'/'</code>. When your
-application loads, Ember will being looking through its internal route maps to
+application loads, Ember will look through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url <code>'/'</code> your Router will automatically transition into this state.</p>
 
@@ -302,7 +304,7 @@ lets you express really nuanced view hierarchies with minimal effort.</p>
 &lt;/script&gt;
 </code></pre>
 
-<p>Within the state that matches for the index path (<code>'/'</code>), implement a
+<p>Within the state that matches the index path (<code>'/'</code>), implement a
 <code>connectOutlets</code> method. It takes a single argument that will be your
 application's router. Within that method get the single instance of our
 <code>ApplicationController</code> class and connect its outlet with the <code>connectOutlet</code>
@@ -443,7 +445,7 @@ to a – as yet unimplemented – <code>Contributor</code> class and a <code>fin
 <span class="p">});</span>
 </pre></div>
 
-<p>This creates a new class and reopens that class to add class (sometimes called
+<p>This creates a new class and reopens that class to add a class (sometimes called
 'static') method:</p>
 
 <p>If you reload your application you'll see that nothing renders now. This is
@@ -662,7 +664,7 @@ for what is happening on transitions:</p>
 <span class="p">})</span>
 </pre></div>
 
-<p>Let's unpack what's going on when we click that link. Ember has registered
+<p>Let's unpack what's going on when we click that link. Ember has registered a
 listener on the <code>&lt;a&gt;</code> element for you (so, no, this is nothing like going back
 to <em>ye olde onclick</em> days) that will call the matching action name
 (<code>showContributor</code>) on the <code>target</code> property of the view. It just so happens
@@ -675,7 +677,7 @@ router will walk up through the state tree towards <code>root</code> looking for
 action name.</p>
 
 <p>Since our state <em>does</em> have a matching name, 
-<code>showContributor: Ember.Route.transitionTo('aContributor')</code>, it's called. This function
+<code>showContributor: Ember.Route.transitionTo('aContributor')</code> is called. This function
 transitions the router to the name state ('aContributor') and calls its
 <code>connectOutlets</code> callback with the router as the first argument and the context
 from the <code>{{action}}</code> helper as the second argument:</p>
@@ -743,7 +745,7 @@ the URL updates to '#/undefined' again.</p>
 <p>When we load an Ember application at a particular url it will attempt to match
 and transition into a state with matching <code>route</code> pattern and call the state's
 <code>connectOutlets</code> and <code>serialize</code> callbacks. When we reload at '#/kselden', for
-example, The router matches to the state with the <code>route</code> pattern of
+example, The router matches the state with the <code>route</code> pattern of
 '/:githubUserName', transitions into it, then calls <code>connectOutlets</code> with the
 router as the first argument and a second argument of ... no context at all.
 Finally, <code>serialize</code> is called, also with an <code>undefined</code> context, and the
@@ -807,7 +809,7 @@ control development of both client and server it's typical.</p>
 the 'aContributor' states's deserialize method. Then we set up some ajax and
 immediately return the <code>Contributor</code> instance. When the ajax completes we find
 just the contributor we're interested in by looking for the first result with a
-a matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
+matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
 instance's properties with <code>setProperties</code>, which will trigger a view update of
 any sections bound to properties whose values have changed.</p>
 
@@ -963,7 +965,7 @@ deeply as you'd like to). Go ahead and change</p>
 &lt;/script&gt;
 </code></pre>
 
-<p>And add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
+<p>and add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
 In the absence of a controller with a matching name, Ember will just use the
 rendering context of the parent template, which in our case is the shared
 instance of <code>OneContributorController</code> with its <code>context</code> property already set
@@ -1017,7 +1019,7 @@ and transition to this state again to see the updated view.</p>
 
 <p>What about transitioning between our 'aContributor.details' and
 'aContributor.repos' state? This should begin to look boringly familiar soon.
-Update our view to provide some navigational elements. Currently it looks like
+Let's update our view to provide some navigational elements. Currently it looks like
 this:</p>
 
 <pre lang="handlebars"><code>&lt;script type="text/x-handlebars" data-template-name="a-contributor"&gt;
