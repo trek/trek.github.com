@@ -353,7 +353,7 @@ template with markup for all our contributors so I access the application's
 single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
 it with <code>'allContributors'</code> as an argument.</p>
 
-<p>When our application is <code>initialize</code>ed, a single shared instance of each
+<p>When our application is <code>initialize</code>-ed, a single shared instance of each
 controller is created for us. Because you'll most likely access this instance
 from the router, it's placed as a property of the router with a name that
 matches the controller's classname but converted to lower-camel style:
