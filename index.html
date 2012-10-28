@@ -1,0 +1,1067 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Advice on &amp; Instruction in the Use Of Ember.js</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/css/pygment.css">
+    <link rel="stylesheet" href="/css/normalize.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/webfonts/ss-social.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script src="/css/webfonts/ss-social.js" type="text/javascript" charset="utf-8"></script>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+    
+    <div class="wrapper">
+      <div class="about">
+        Trek helped start <a href='http://twitter.com/workantile'>@workantile</a> 
+        and currently makes mischief with <a href='http://twitter.com/GrouponEng'>@GrouponEng</a>. 
+        He's an <a href='http://twitter.com/emberjs'>@emberjs</a> core member if such a thing exists. 
+        <a href='http://twitter.com/paul_irish'>@paul_irish</a> once called him <q>a hero</q>. 
+      </div>
+      <header>
+        <a href='http://twitter.com/trek'><i class='ss-icon ss-twitter'></i></a>
+        <a href='http://github.com/trek'><i class='ss-icon ss-octocat'></i></a>
+        <p class="date">Aug 30, 2012</p>
+      </header>
+      <section>
+
+          <h1>Advice on &amp; Instruction in the Use Of Ember.js</h1>
+
+<p><a href="http://emberjs.com/">Ember.js</a> &mdash; for the unaware &mdash; is an application framework
+for building sophisticated browser applications. I&#39;m a frequent contributor to
+the project and use it professionally at my current gig with <a href="http://www.groupon.com/techjobs/#/about">Groupon
+Engineering</a>. This piece is part
+tutorial, part marketing pitch.</p>
+
+<p>There&#39;s currently a lot of interest in Ember and its
+browser-application-crafting siblings as people are becoming more comfortable
+with the browser as a legitimate application development platform and not merely a
+ubiquitously deployed rendering engine for server-generated documents. <a href="https://twitter.com/dhh/status/212655990766702594">Not
+everyone</a> thinks this pattern
+is viable moving forward, but I suspect interest in making this style of
+application will only increase over time, become foolishly and inappropriately
+overused, and finally settle down as a useful addition to a developer&#39;s
+toolset.</p>
+
+<p>I&#39;m pretty convinced Ember will be the go-to choice for writing applications
+with the sophistication, usefulness, and polish of products like
+<a href="http://www.rdio.com/">Rdio</a>, <a href="https://squareup.com/">Square</a>&#39;s web properties,
+or <a href="http://get.wunderkit.com/apps/">Wunderkit</a>. Ember is the only framework I&#39;ve
+seen so far that is genuinely tackling the real and difficult requirements of UI
+Engineering. I don&#39;t say this to knock projects like
+<a href="http://batmanjs.org/">Batman</a>, <a href="http://knockoutjs.com/">Knockout</a>,
+<a href="http://www.angularjs.org/">Angular</a>, or <a href="http://backbonejs.org/">Backbone</a>.
+They&#39;re quite good; I&#39;ve played with all and have used Backbone professionally.</p>
+
+<p>Like Ember, they&#39;re all experimenting with strategies for connecting data to
+display and keeping the two synchronized – a notably difficult task. But only
+Ember is approaching this task in a larger scope of UI Engineering that involves
+even harder architecture concerns. This is part of what makes Ember.js
+challenging for a learner to approach. Have you ever written an app that is
+long-running, stateful, requires identity mapping, or must serialize state for
+later re-entry? If you&#39;re like most web developers I meet, it&#39;s highly likely
+these are all foreign or novel concepts for you. Even if you&#39;ve encountered them
+before in a CS class or while doing iOS development you&#39;ve probably never
+translated them into the browser environment.</p>
+
+<p>Listen: it&#39;s not Ember that&#39;s hard. It&#39;s the concepts. When people tell me the
+learning curve for Angular or Backbone is small, I call bullshit. Small for whom? Sure,
+Backbone is approachable if you&#39;ve spent some time writing applications with jQuery
+and are familiar with callback-style evented architectures. Backbone&#39;s DNA is
+basically <a href="http://css-tricks.com/custom-events-are-pretty-cool/">jQuery custom
+events</a> on steroids.
+Angular is a dream if you&#39;re accustomed to HTML <code>data-</code> style behavior like
+you find as part of <a href="http://twitter.github.com/bootstrap/javascript.html">Twitter Bootstrap&#39;s javascript</a></p>
+
+<p>Even if Backbone fits squarely into your existing skill set – admittedly true
+for most web developers – it&#39;s learning curve ramps up steeply if you&#39;re
+dedicated to writing robust applications. Ever run into <a href="http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/">zombie events in a
+Backbone
+application</a>?
+No? You&#39;ve either not used it for anything big, have <a href="http://www.imdb.com/title/tt0095953/">Rain
+Man</a>-like ability to craft software, or
+are fucking shitting me.</p>
+
+<p>Here&#39;s an example of some of the view cleanup code in Rdio:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">destroy</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">unbind</span><span class="p">();</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">pause</span><span class="p">(),</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_triggerError</span><span class="p">),</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&quot;ended&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_triggerEnd</span><span class="p">),</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&quot;canplay&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_triggerReady</span><span class="p">),</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s2">&quot;loadedmetadata&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_onLoadedMetadata</span><span class="p">),</span>
+    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">c</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">_bubbleProfilingEvent</span><span class="p">)</span>
+    <span class="p">}),</span>
+    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">c</span><span class="p">.</span><span class="nx">_element</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">_logEvent</span><span class="p">)</span>
+    <span class="p">}),</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_element</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;destroy&quot;</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>If this doesn&#39;t look familiar, you&#39;re in for a world of hurt when you try to
+parlay your Backbone skills into something Rdio-sized. Backbone is the best solution,
+hands down, for apps where the user comes to a page, interacts with the application
+for a short time before moving on, letting the <a href="https://github.com/documentcloud/backbone/issues/231">views and the models get thrown
+away</a>. Beyond that,
+it requires increasing diligence and expertise on your part.</p>
+
+<p>So, here&#39;s my pitch: I want you to learn Ember. Not instead of Backbone or
+Angular but <em>in addition to</em> them. There&#39;s a lot of writing comparing the three,
+but once you become familiar with them you&#39;ll see it&#39;s a totally nonsensical
+comparison. Although their output is the same (i.e. a &quot;web app&quot;) they just don&#39;t
+belong in the same category.</p>
+
+<p>I apologize for the long preamble, but we&#39;re exploring some concepts and
+I want to be sure you&#39;re willing to allow that their strangeness is not due to
+the poor architecture of Ember but to your unfamiliarity with them. If you&#39;re
+willing to learn no matter how funky weird things appear at first, read on. If
+you&#39;re looking to troll then just skim on: you&#39;ll find <em>lots</em> of things to
+highlight <a href="https://twitter.com/delambro/status/234997274051219456">when you create a troll twitter account with a single post maligning
+a tool you&#39;ve never bothered to
+explore</a>.</p>
+
+<h2>The Smallest Viable Ember Application</h2>
+
+<p>The smallest possible Ember application of interest can be describe thus:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
+
+<span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;application&#39;</span>
+<span class="p">});</span>
+<span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Controller</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+
+
+<span class="nx">App</span><span class="p">.</span><span class="nx">Router</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">root</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+      <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">});</span>
+
+<span class="nx">App</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>And in our HTML document body or head:</p>
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/x-handlebars&quot;</span> <span class="na">data-template-name=</span><span class="s">&quot;application&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p>Let&#39;s examine each piece in isolation.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>This line creates a new instance of <code>Ember.Application</code>. <code>Application</code> does two handy things:</p>
+
+<ul>
+<li>provides one location for all your objects so we avoid <a href="https://www.google.com/search?q=don&#x27;t+pollute+the+global+namespace">polluting the global namespace</a>.</li>
+<li>creates one listener for each user event (e.g. &#39;click&#39;) and <a href="https://www.google.com/search?q=event+delegation">controls event delegation</a>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;application&#39;</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Views in Ember are responsible for:</p>
+
+<ul>
+<li>determining the structure of a section of the application&#39;s rendered HTML.</li>
+<li>responding to delegated user events.</li>
+</ul>
+
+<p>In the above view we will change structure of the page only through the view&#39;s
+template, which will render as the contents of the view&#39;s tag, but we could also
+provide a different tag name, id, css class, or other HTML attributes for the
+rendered element.</p>
+
+<p>Your application <em>must</em> have an <code>ApplicationView</code> property. An instance of this
+class will be created for you and inserted into the application&#39;s view hierarchy
+as the root view.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Controller</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>Every view has a rendering context. This is the object where Handlebars
+templates will look for properties. So, if your template looks like this:</p>
+
+<p>and its rendering context has a <code>name</code> property, you&#39;ll see the value outputted.
+If there is no property, you&#39;ll see nothing.</p>
+
+<p>A single instance of <code>ApplicationController</code> will be created for you and
+automatically set as the rendering context of the <code>ApplicationView</code>. This is
+obvious but bears mentioning: your application <em>must</em> have an
+<code>ApplicationController</code> property. If it lacked one, the application&#39;s root view
+would have no rendering context and would be pretty useless except for
+displaying static content. Ember enforces the presence of this property by
+throwing an error if it&#39;s missing.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Router</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">root</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+      <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>A <code>Router</code> in Ember behaves significantly different than you probably suspect
+if you have experience with other javascript libraries using the &#39;router&#39; label.
+Ember&#39;s <code>Router</code> class is a subclass of its more general purpose <code>StateManager</code>.
+Most browser-routers are just copying the routing pattern from familiar server
+technologies. But HTTP is specifically a <a href="http://en.wikipedia.org/wiki/Stateless_protocol">stateless
+protocol</a> and the techniques
+for routing on the server are missing important abilities when translated into
+the stateful environment of browser application development.</p>
+
+<p>Your application&#39;s router is responsible for tracking the state of your
+application and affecting the application&#39;s view hierarchy in response to state
+change. It is also responsible for serializing this state into a single string –
+the URL – and for later deserializing the string into a usable application
+state. Rather than being a central organizing technique, URLs are just a useful
+side effect of state change.</p>
+
+<p>States are the central feature of an Ember application. Yes, property
+observations and automatic view updates are handy, but if that&#39;s all Ember
+offered it would be only a fraction as useful for serious and robust development.</p>
+<div class="highlight"><pre><code class="javascript"><span class="p">...</span>
+<span class="nx">root</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+<span class="p">...</span>
+</code></pre>
+</div>
+
+<p>Your router must have these two routes. The first, <code>root</code>, really just acts as a
+container for all subsequent routes. You can think of it as the route set,
+rather than a proper route itself. The second <code>index</code>, can be called whatever
+you like. The key feature is that it has a <code>route</code> property of <code>&#39;/&#39;</code>. When your
+application loads, Ember will being looking through its internal route maps to
+find one that matches the url in the browser. If you enter the application at
+the url <code>&#39;/&#39;</code> your Router will automatically transition into this state.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>Finally, calling <code>initialize</code> on your application starts the application&#39;s
+routing process, sets up the necessary internal structure based on configuration
+we&#39;ve done earlier, and inserts an instance of your <code>ApplicationView</code> (with an
+instance of <code>ApplicationController</code> as its rending context) into the page.</p>
+
+<h2>Building Up An Application</h2>
+
+<p>From here, we can start building up an application by adding states to our
+router, navigable elements in our templates to allow a user to begin
+manipulating states, and views that are inserted in response to these state
+changes. We&#39;ll create a tiny application that lets you see information about
+committers to the main Ember repository.</p>
+
+<p>Let&#39;s start that process by adding some markup and an <code>outlet</code> into our
+currently empty <code>application</code> template:</p>
+
+<p>An <code>outlet</code> helper defines sections of a template where we will change specific
+portions of the view hierarchy in response to state change. Any template (not
+just the root one) can have any number of outlets (if you give them names). This
+lets you express really nuanced view hierarchies with minimal effort.</p>
+
+<p>Next, add a view for all contributors and a matching controller and template:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">ArrayController</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+<span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributors&#39;</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Within the state that matches for the index path (<code>&#39;/&#39;</code>), implement a
+<code>connectOutlets</code> method. It takes a single argument that will be your
+application&#39;s router. Within that method get the single instance of our
+<code>ApplicationController</code> class and connect its outlet with the <code>connectOutlet</code>
+method:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;wycats&#39;</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;tomdale&#39;</span><span class="p">}]);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Give your application a reload. You won&#39;t see much yet, but this will let you
+catch any console errors now.</p>
+
+<p>Let me assuage your obvious fears right now: Yes, this is a lot of code. Yes, it
+seems weirdly complex. Yes, you could accomplish this same trivial task in
+Backbone or Angular with far less code. Ember isn&#39;t targeting applications with
+this minimal level of sophistication so it seems foolishly verbose when starting
+out.</p>
+
+<p>That said, this is the <em>single</em> central pattern to an application. Once you
+master it, you&#39;ll be cranking out applications like a pro. Ember applications
+start out with a complexity rating of 4/10 but never get much higher than 6/10,
+regardless of how sophisticated your application becomes. Backbone starts out at
+1/10 but complexity grows linearly. This is a natural side effect of the types
+of applications the two frameworks were specifically created for.</p>
+
+<p>Let&#39;s unpack our new code, in reverse:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;wycats&#39;</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;tomdale&#39;</span><span class="p">}]);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>When your application is loaded at the url <code>&#39;/&#39;</code>, Ember will automatically
+transition the application into the state I&#39;ve called <code>index</code>. <code>connectOutlets</code>
+is called on this state. It acts as a callback for us to connect sections of our
+view hierarchy (designated with <code>) to specific views based on the
+state. In this case I want to connect the</code> in our application
+template with markup for all our contributors so I access the application&#39;s
+single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
+it with <code>&#39;allContributors&#39;</code> as an argument.</p>
+
+<p>When our application is <code>initialize</code>ed, a single shared instance of each
+controller is created for us. Because you&#39;ll most likely access this instance
+from the router, it&#39;s placed as a property of the router with a name that
+matches the controller&#39;s classname but converted to lower-camel style:
+<code>ApplicationController</code>&#39;s single instance is stored as <code>applicationController</code>.</p>
+
+<p>Controllers have the ability to connect outlets in the views they control. In the
+above example, I&#39;m calling <code>connectOutlet</code> with <code>&#39;allContributors&#39;</code> as an argument.
+This will create an instance of <code>AllContributorsView</code> for us, set the shared instance of
+<code>AllContributorsController</code> as the view&#39;s default rendering context, and insert
+it into our view hierarchy at the point where `<code>appears in the
+application template. The second argument, which I&#39;ve hard coded as an array of
+two object literals, is set as the</code>content` of the controller instance. (Those
+who fear this kind of &quot;magic&quot; are free to read the documentation for Controllers
+to see the full, maximally verbose and explicit arguments you can pass).</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">ArrayController</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+<span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributors&#39;</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>The <code>AllContributorsController</code> is a subclass of Ember&#39;s <code>ArrayController</code> class.
+<code>ArrayController</code>s acts as containers for any array-like object in Ember and
+simply proxy undefined properties or methods to the underlying <code>content</code> array.</p>
+
+<p>In our template, the each call (`<code>) is passed along
+to the</code>content` of our ArrayController which I&#39;ve hard-coded as an array of two
+object literals with a single property each.</p>
+
+<h2>Loading External Data</h2>
+
+<p>Ember gets a lot of flack for it&#39;s lack of &quot;a persistence layer&quot; when compared
+to Backbone or Batman. I&#39;ve never thought of this as fair criticism because I
+don&#39;t think of thin wrappers around <code>$.ajax()</code> that follow a Rails-style-REST
+pattern really merit the &quot;persistence layer&quot; label. And many other frameworks
+are starting to realize this too as their thin <code>$.ajax()</code> delegation is being
+fleshed out to handle the <a href="https://plus.google.com/u/0/106300407679257154689/posts/Hv6xvZsuBBF">real and difficult problems of reliably synchronizing
+data between two environments when there are few structural standards to rely
+on</a>.</p>
+
+<p>The real, valid criticism is that nobody who knows Ember has offered much
+guidance for how to handle data loading within an Ember application. Ember, as
+I&#39;m trying to convince you, has valuable patterns you&#39;ve never used before and
+it&#39;s totally unfair to maintain this assertion while simultaneously expecting
+you to know how to combine these patterns with data loading solutions you&#39;ve
+previously used.</p>
+
+<p>The best advice I can offer is: always be returning.</p>
+
+<p>Ember relies on the immediate availability of data objects even if the
+underlying content of those objects is still loading. This is almost certainly
+different than asynchronous patterns for data loading you&#39;ve used
+before. Let&#39;s step through how this works, one concern at a time.</p>
+
+<p>In our application so far, I&#39;ve punted on data and just hard coded something
+into our index state:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="p">[{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;wycats&#39;</span><span class="p">},{</span><span class="nx">login</span><span class="o">:</span><span class="s1">&#39;tomdale&#39;</span><span class="p">}]);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>I&#39;d much prefer to delegate that data loading out to a proper object. Let&#39;s call
+to a – as yet unimplemented – <code>Contributor</code> class and a <code>find</code> method on that class:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>And now implement this object:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+<span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">reopenClass</span><span class="p">({</span>
+  <span class="nx">find</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>This creates a new class and reopens that class to add class (sometimes called
+&#39;static&#39;) method:</p>
+
+<p>If you reload your application you&#39;ll see that nothing renders now. This is
+because we&#39;ve set the <code>content</code> of our <code>AllContributorsController</code> to undefined
+which is the default return value of our new <code>find</code> method. Let&#39;s apply some
+<code>$.ajax</code> to the method:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">reopenClass</span><span class="p">({</span>
+  <span class="nx">find</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://api.github.com/repos/emberjs/ember.js/contributors&#39;</span><span class="p">,</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+        <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Reload your application and you&#39;ll see there is still no change because,
+although we request data, <code>find</code> still has no return value. It&#39;s here that
+people usually code themselves into a corner trying to get their previous
+experience with ajax to fit into Ember patterns, give up, and post a
+StackOverflow question.</p>
+
+<p>There are a few solutions to this problem but the easiest for us now is to just
+make sure we&#39;re returning an array:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">reopenClass</span><span class="p">({</span>
+  <span class="nx">allContributors</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">find</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://api.github.com/repos/emberjs/ember.js/contributors&#39;</span><span class="p">,</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+      <span class="nx">context</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+        <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">contributor</span><span class="p">){</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">allContributors</span><span class="p">.</span><span class="nx">addObject</span><span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">contributor</span><span class="p">))</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">allContributors</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>I&#39;ve changed <code>find</code> to immediately return an array (<code>this.allContributors</code>) which
+starts out empty. This will become the <code>content</code> of our controller, which is the
+default rendering context for the view. When the view first renders it will loop
+over the empty array and insert nothing into the page. When the ajax call is
+successful we loop through the response from the server turning each chunk
+of JSON into an instance of our <code>Contributor</code> class, and add it to the array.
+Ember&#39;s property notification system will trigger a view re-render for just the
+affected sections of the page.</p>
+
+<p>Because Ember has a good property observation system we can handle the
+asynchronicity from multiple points within the application structure where it&#39;s
+most appropriate rather than being forced to handle it at the communication
+layer.</p>
+
+<p>If you reload the application you&#39;ll see an empty page before the view updates
+when the data is loaded. If we were writing a slightly more complex application,
+we could use a library by the core team called <a href="https://github.com/emberjs/data">Ember
+Data</a> that would help with functionality like
+binding loading state to view display. It has far more ambitious goals than
+we&#39;ll need for demonstration: stateful data synchronization, property encoding
+and decoding, identity mapping, transactional communication, and more.</p>
+
+<h2>Transitioning Between States</h2>
+
+<p>With data in hand, we can now allow users to transition between the state where
+they see all contributors to a state where they see just one contributor. Our
+current router looks like this</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Router</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">root</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">index</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+      <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+      <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>We&#39;ll add a sibling state to index for viewing just a single contributor. I&#39;m
+also going to rename &#39;index&#39; to the more descriptive state name of
+&#39;contributors&#39;:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Router</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">root</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">contributors</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+      <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+      <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+      <span class="p">}</span>
+    <span class="p">}),</span>
+
+    <span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+      <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+      <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+        <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+
+  <span class="p">})</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Examining this new state in isolation:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>I&#39;ve supplied a <code>route</code> property of <code>&#39;:/githubUserName&#39;</code>, which we&#39;ll use later
+to serialize and deserialize this state. I&#39;ve implemented the <code>connectOutlets</code>
+method with two arguments: one to represent the entire router and one, called
+<code>context</code>, which will help answer the question &quot;_which_ contributor&quot; later on.
+Inside <code>connectOutlets</code> I&#39;ve accessed the shared instance of
+<code>ApplicationController</code> and used it to connect the outlet in its view (an
+instance of <code>ApplicationView</code>) to a pairing of
+<code>OneContributorView</code>/<code>OneContributorController</code>, which are unimplemented.</p>
+
+<p>Next, we&#39;ll update the application template to include a way for users to change
+the application&#39;s state from &#39;contributors&#39; to &#39;aContributor&#39; through
+interaction. Currently our template just loops and prints the <code>login</code> property
+of each contributor:</p>
+
+<p>We&#39;re going to encase that login in an <code>&lt;a&gt;</code> tag that includes a call to the `` helper:</p>
+
+<p>The `<code>helper goes _within_ the opening tag of an element (here, the
+</code><a><code>) and takes two arguments. The first,</code>showContributor<code>, is the action we&#39;d
+like to send to the current state of the application and the second,</code>person<code>,
+will become the</code>context` argument passed through various callbacks in the
+application&#39;s router.</p>
+
+<p>If you reload the application now you&#39;ll see that our logins have become links.
+With your console enabled, click any of the links. You&#39;ll see a warning that
+your application&#39;s router &#39;could not respond to event showContributor in state
+root.contributors&#39;.</p>
+
+<p>Add this transition action to the &#39;contributors&#39; state. I like to put my actions
+between route property definition and route API callbacks like
+<code>connectOutlets</code>:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">contributors</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+
+  <span class="nx">showContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;aContributor&#39;</span><span class="p">),</span>
+
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;allContributors&#39;</span><span class="p">,</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">find</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>The new action is written for us by the static method <code>transitionTo</code> on
+the <code>Ember.Route</code> class. You can write your transitions yourself (they&#39;re just
+functions), but <code>Ember.Route.transitionTo</code> saves you trouble of hand-writing
+a lot of similar looking functions.</p>
+
+<p>Pop back to the browser, reload the application, and try to transition again.
+This time, you&#39;ll be warned that we&#39;re missing our <code>OneContributorView</code> class.
+The transition has occurred and we&#39;ve reached the <code>connectOutlets</code> callback
+on the &#39;aContributor&#39; state, but cannot properly connect our outlet yet without
+the missing view class.</p>
+
+<p>Implement this class and matching controller and template:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">OneContributorView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;a-contributor&#39;</span>
+<span class="p">});</span>
+<span class="nx">App</span><span class="p">.</span><span class="nx">OneContributorController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">ObjectController</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>I&#39;ve made <code>OneContributorController</code> an instance of <code>Ember.ObjectController</code>.
+<code>ObjectController</code> is like <code>ArrayController</code> – a tiny wrapper for objects that will
+just proxy property and method access to its underlying <code>content</code> property – but
+for single objects instead of collections.</p>
+
+<p>If you reload the application and try to transition you should have more
+success. It might be handy to enable logging on your router to get a better feel
+for what is happening on transitions:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Router</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="nx">enableLogging</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+   <span class="c1">// other properties added earlier</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Let&#39;s unpack what&#39;s going on when we click that link. Ember has registered
+listener on the <code>&lt;a&gt;</code> element for you (so, no, this is nothing like going back
+to <em>ye olde onclick</em> days) that will call the matching action name
+(<code>showContributor</code>) on the <code>target</code> property of the view. It just so happens
+that the default target for any view is the application&#39;s router.</p>
+
+<p>The router will delegate this action name to the current state. If the action is
+present on the state, it will be called with the object you provided as the
+second argument to `<code>as a context argument. If it&#39;s not present, the
+router will walk up through the state tree towards</code>root` looking for a matching
+action name.</p>
+
+<p>Since our state <em>does</em> have a matching name,
+<code>showContributor: Ember.Route.transitionTo(&#39;aContributor&#39;)</code>, it&#39;s called. This function
+transitions the router to the name state (&#39;aContributor&#39;) and calls its
+<code>connectOutlets</code> callback with the router as the first argument and the context
+from the `` helper as the second argument:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Within this method, we access the single shared instance of
+<code>ApplicationController</code> and connect the outlet in its view (an instance of
+<code>ApplicationView</code>) by inserting an instance of <code>OneContributorView</code> with the
+single shared instance of <code>OneContributorController</code> as its default rendering
+context.</p>
+
+<p>The <code>content</code> property of this controller is set to the passed <code>context</code>
+argument. Since <code>OneContributorController</code> is a descendant of
+<code>ObjectController</code>, property access in the view will proxy through the
+controller to this <code>content</code>.</p>
+
+<p>The view renders and we see our updated view hierarchy in the browser.</p>
+
+<h2>Serializing and Deserializing States</h2>
+
+<p>Observant readers will notice that, although we supplied a <code>route: &#39;/:githubUserName&#39;</code>
+property on our current state, the URL displayed
+in the browser has updated to a value of &#39;#/undefined&#39;. I mentioned
+earlier that URLs were just a pleasant side effect of state changes
+but we haven&#39;t talked about serializing and deserializing states yet.</p>
+
+<p>After an application state is entered and <code>connectOutlets</code> has been called, the
+router will call <code>serialize</code> on the state with the router itself as the first
+argument and the current context as the second argument. There is a default
+implementation of <code>serialize</code> that does property lookup on the context using any
+dynamic slugs in the supplied <code>route</code> property as keys.</p>
+
+<p>To have serialization work we can either update our <code>route</code> to include dynamic
+slugs that match known properties on the object or implement our own custom
+method.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>The return value from a custom <code>serialize</code> method must be an object literal with
+keys that match any dynamic slugs in the supplied <code>route</code>. The value for these
+keys will be placed in the url.</p>
+
+<p>Browse back to the root state of your application (i.e. go back to &#39;/&#39;),
+reload the application, and navigate back to the &#39;aContributor&#39; state for any
+contributor. The url should update properly.</p>
+
+<p>Unfortunately if you reload the application at this particular state you&#39;ll see
+the URL updates to &#39;#/undefined&#39; again.</p>
+
+<p>When we load an Ember application at a particular url it will attempt to match
+and transition into a state with matching <code>route</code> pattern and call the state&#39;s
+<code>connectOutlets</code> and <code>serialize</code> callbacks. When we reload at &#39;#/kselden&#39;, for
+example, The router matches to the state with the <code>route</code> pattern of
+&#39;/:githubUserName&#39;, transitions into it, then calls <code>connectOutlets</code> with the
+router as the first argument and a second argument of ... no context at all.
+Finally, <code>serialize</code> is called, also with an <code>undefined</code> context, and the
+property <code>githubUserName</code> is accessed on <code>undefined</code> and the URL is updated to
+&#39;#/undefined&#39;.</p>
+
+<p>Entering the application at a particular URL doesn&#39;t give our application access
+to previous loaded data so to fully load the matching state, we need to
+re-access this data. States have a callback <code>deserialize</code> for doing just this.
+There&#39;s a default implementation, but we can implement our own custom one as
+well:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)}</span>
+  <span class="p">},</span>
+  <span class="nx">deserialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">urlParams</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">urlParams</span><span class="p">.</span><span class="nx">githubUserName</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Above, I&#39;ve mocked out what I want this deserialization interface to look like.
+I&#39;ll call <code>App.Contributor.findOne</code> with the section of our url represented by
+<code>githubUserName</code> and return this object. The return value of <code>deserialize</code>
+becomes the <code>context</code> passed to <code>connectOutlets</code>, so I must immediately return
+an object that will get populated with data later. Let&#39;s add
+<code>App.Contributor.findOne</code> to allow for passing a Github user name.</p>
+
+<p>Github allows us to access a user at &#39;/users/*a name*&#39;, but this isn&#39;t within
+the context of a particular repository, so we won&#39;t have access to this users
+contribution count, which is part of the data we need. To see a particular
+users in the context of a repository we&#39;ll need to load them all and locally
+find the one we&#39;re looking for. This isn&#39;t exactly ideal, but unless you
+control development of both client and server it&#39;s typical.</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">findOne</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">){</span>
+  <span class="kd">var</span> <span class="nx">contributor</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">login</span><span class="o">:</span> <span class="nx">username</span>
+  <span class="p">});</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://api.github.com/repos/emberjs/ember.js/contributors&#39;</span><span class="p">,</span>
+    <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+    <span class="nx">context</span><span class="o">:</span> <span class="nx">contributor</span><span class="p">,</span>
+    <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">findProperty</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+
+  <span class="k">return</span> <span class="nx">contributor</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The order of execution for this method is: create a new <code>Contributor</code> object with
+<code>login</code> set immediately to the known value passed in as <code>username</code> from within
+the &#39;aContributor&#39; states&#39;s deserialize method. Then we set up some ajax and
+immediately return the <code>Contributor</code> instance. When the ajax completes we find
+just the contributor we&#39;re interested in by looking for the first result with a
+a matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
+instance&#39;s properties with <code>setProperties</code>, which will trigger a view update of
+any sections bound to properties whose values have changed.</p>
+
+<h2>Repeat</h2>
+
+<p>That&#39;s an Ember application. States, transitioning between them, and
+loading data when you need it. You can build up surprisingly sophisticated and
+robust UIs by repeating this process until you&#39;re happy. Let&#39;s repeat this by
+add a &quot;back to all contributors&quot; navigation to our template for a single contributor:</p>
+
+<p>Right now the template is pretty simple:</p>
+
+<p>Let&#39;s add an element with an action to transition back to the &#39;contributors&#39;
+state:</p>
+
+<p>Add this action to the &#39;aContributor&#39; state:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+
+  <span class="nx">showAllContributors</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;contributors&#39;</span><span class="p">)</span>
+
+  <span class="c1">// ... remainder of this object&#39;s properties</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Done.</p>
+
+<p>Nested states are possible and encouraged as well. They come with only one
+caveat: you must end the transition between states on state that is a &#39;leaf&#39;
+(i.e. has no child states of its own). As you convert states into more complex
+sets of nested states, either remember to directly transition to one of the
+child states or set an <code>initialState</code> property.</p>
+
+<p>Let&#39;s convert our simple &#39;aContributor&#39; state into a more complex object with
+two child states. The parent &#39;aContributor&#39; we&#39;ll use for fetching a contributor
+and displaying her name and number of commits. Then we&#39;ll provide two nested
+states: one – &#39;details&#39; – for viewing additional details about the contributor
+and a second – &#39;repos&#39; – for showing a list of their repositories.</p>
+
+<p>For reference, the &#39;aContributor&#39; state looks like this:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)}</span>
+  <span class="p">},</span>
+  <span class="nx">deserialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">urlParams</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">urlParams</span><span class="p">.</span><span class="nx">githubUserName</span><span class="p">);</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>And we&#39;ll change it to this:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/:githubUserName&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">serialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">githubUserName</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)}</span>
+  <span class="p">},</span>
+  <span class="nx">deserialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">urlParams</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">urlParams</span><span class="p">.</span><span class="nx">githubUserName</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="c1">// child states</span>
+  <span class="nx">initialState</span><span class="o">:</span> <span class="s1">&#39;details&#39;</span><span class="p">,</span>
+  <span class="nx">details</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+    <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+      <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;details&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}),</span>
+  <span class="nx">repos</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/repos&#39;</span><span class="p">,</span>
+    <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+      <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;repos&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Examining each state in isolation:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">initialState</span><span class="o">:</span> <span class="s1">&#39;details&#39;</span><span class="p">,</span>
+<span class="nx">details</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">route</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;details&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>When we transition into &#39;aContributor&#39;, its callbacks (<code>connectOutlets</code>,
+<code>serialize</code>, optionally <code>deserialize</code> if we&#39;re transitioning during application
+load) are called. This means the <code>in our application template is
+filled with an instance of `OneContributorView` with the shared instance of
+`OneContributorController` used as its default rendering context. The `context`
+argument is passed from the</code>, through
+the transition, and into this callback. We then pass it along as the second
+argument to <code>connectOutlet</code> and it becomes the <code>content</code> property of the shared
+<code>OneContributorController</code> instance.</p>
+
+<p>Then, because we have <code>initialState</code> defined the router immediately transitions
+into the state &#39;aContributor.details&#39; and calls its <code>connectOutlets</code> callback:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;details&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>In this callback we&#39;re connecting an `` that we&#39;ll place inside the
+template for a contributor (yes, outlets can be nested inside other outlets as
+deeply as you&#39;d like to). Go ahead and change</p>
+
+<p>to</p>
+
+<p>And add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
+In the absence of a controller with a matching name, Ember will just use the
+rendering context of the parent template, which in our case is the shared
+instance of <code>OneContributorController</code> with its <code>context</code> property already set
+to the contributor we&#39;re interested in:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">DetailsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributor-details&#39;</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Reload the app and navigate to the &#39;aContributor.details&#39; state by clicking on a
+Github username. If you have <code>enableLogging</code> on for your router you&#39;ll see we&#39;ve
+successfully transitioned into the state but are missing the <code>email</code> and <code>bio</code>
+data. Unfortunately, these properties are not part of the contributor data that
+comes from Github. We&#39;ll need to trigger a call to Github when we enter this
+state to fetch additional details. Let&#39;s stub out a call to this in the
+<code>connectOutlets</code> for &#39;aContributor.details&#39;:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController.content&#39;</span><span class="p">).</span><span class="nx">loadMoreDetails</span><span class="p">();</span>
+  <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;details&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And add this method to our <code>Contributor</code> model:</p>
+<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">loadMoreDetails</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://api.github.com/users/%@&#39;</span><span class="p">.</span><span class="nx">fmt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)),</span>
+      <span class="nx">context</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+      <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+      <span class="p">})</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Now when we enter this state we&#39;ll trigger a call to load more data from Github,
+immediately render the view, and the view will automatically update when
+additional properties eventually have values. You can now reload the application
+and transition to this state again to see the updated view.</p>
+
+<p>What about transitioning between our &#39;aContributor.details&#39; and
+&#39;aContributor.repos&#39; state? This should begin to look boringly familiar soon.
+Update our view to provide some navigational elements. Currently it looks like
+this:</p>
+
+<p>And after we&#39;ve added two actions:</p>
+
+<p>Create the new transitions. I&#39;ve placed them both within the &#39;aContributor&#39;
+state itself:</p>
+<div class="highlight"><pre><code class="javascript">  <span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">showDetails</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;details&#39;</span><span class="p">),</span>
+    <span class="nx">showRepos</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">transitionTo</span><span class="p">(</span><span class="s1">&#39;repos&#39;</span><span class="p">)</span>
+
+   <span class="c1">// ... remainder of the state&#39;s properties ...//</span>
+  <span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Now we can toggle between the two states. The <code>aContributor.repos</code> state will
+throw an error because we&#39;re missing <code>ReposView</code>, which Ember is attempting to
+find because of our <code>connectOutlet</code> call on router&#39;s <code>oneContributorController</code>:</p>
+<div class="highlight"><pre><code class="javascript">  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;repos&#39;</span><span class="p">)</span>
+  <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Add the view and a template, again skipping the <code>ReposController</code> which will use
+the shared <code>OneContributorController</code> instance as the rendering context for this
+view:</p>
+<div class="highlight"><pre><code class="javascript">  <span class="nx">App</span><span class="p">.</span><span class="nx">ReposView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;repos&#39;</span>
+  <span class="p">})</span>
+</code></pre>
+</div>
+
+<p>For the view I&#39;ve just looped through the <code>repos</code> property of this view&#39;s
+rendering context, the shared <code>OneContributorController</code>.
+<code>OneContributorController</code> is an subclass of <code>ObjectController</code>, so this <code>repos</code>
+lookup is proxied along to the controller&#39;s <code>content</code> property. The <code>content</code>
+is an instance of <code>App.Contributor</code> we&#39;ve passed along through the
+`<code>, transition, and</code>connectOutlets` callback.</p>
+
+<p>Reload the application, navigate back to this state, and you&#39;ll see a sad dearth
+of repos. As with &#39;aContributor.details&#39; we need to request the appropriate data
+to display. Update the <code>connectOutlets</code> of &#39;aContributor.details&#39; to include a
+stubbed method for fetching repos:</p>
+<div class="highlight"><pre><code class="javascript">  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController.content&#39;</span><span class="p">).</span><span class="nx">loadRepos</span><span class="p">();</span>
+    <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;repos&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And implement this method on our <code>App.Contributor</code> model:</p>
+<div class="highlight"><pre><code class="javascript">  <span class="nx">App</span><span class="p">.</span><span class="nx">Contributor</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">loadRepos</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://api.github.com/users/%@/repos&#39;</span><span class="p">.</span><span class="nx">fmt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)),</span>
+        <span class="nx">context</span><span class="o">:</span> <span class="k">this</span><span class="p">,</span>
+        <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+        <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;repos&#39;</span><span class="p">,</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="c1">// other methods previously written</span>
+  <span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Like our data retrieval in &#39;aContributor.details&#39; we now transition into the
+&#39;aContributor.repos&#39; state, trigger data retrieval and immediately update our
+views. Once the data loading is complete, the view should automatically update
+to reflect the new value of our <code>repos</code> property.</p>
+
+<p>Reader <a href="http://github.com/sly7_7">@sly7_7</a> put together <a href="http://jsfiddle.net/Sly7/ZKXyg/">a jsFiddle of the
+completed example</a>.</p>
+
+<h2>Repeat, Repeat, Repeat</h2>
+
+<p>You&#39;ll be surprised how quickly you can express very advanced UIs by just
+repeating this pattern. More importantly, your UIs will be crazy robust. The
+framework creates a small number of bindings and cleans them up when connections
+change. Views tear themselves down and release memory automatically. Judicious
+separation of states ensures users can&#39;t accidentally navigate into frustrating
+edge case scenarios.</p>
+
+<p>When your applications gets a bit larger than this example, start exploring
+<a href="https://github.com/emberjs/data">Ember Data</a> to cut down the number of
+unnecessary ajax calls (and, more importantly, hide this interaction behind a
+nice API).</p>
+
+<p>You made it through all my ranting and odd turns of phrase, so I&#39;ll share
+my <a href="https://twitter.com/trek/status/239063773846052864">secret</a> vision
+for Ember: I want Ember to be a gateway drug for good UI
+engineering the way Rails was for good application development. You may
+scoff – &quot;Rails is bloated, I prefer express.js&quot; – but express is just
+stealing the best tricks from years of battle tested Rails experimentation.</p>
+
+<p>Rails turned many of us from dabblers into developers and Ember
+has that same feel of <em>rightness</em> for me that Rails did in 2004.
+You might reject Ember, but I hope it&#39;s after you&#39;ve toyed with
+it and built something serious so you can reject it for substantive
+reasons or informed aesthetics, not simply because it seemed
+odd, new, or frighteningly different.</p>
+
+<blockquote>
+<p>Copy-editing and proofing graciously provided by
+<a href="https://twitter.com/frodsan">@frodsan</a>,
+<a href="https://twitter.com/patrickbaselier">@patrickbaselier</a>, and
+<a href="https://twitter.com/edimoldovan">@edimoldovan</a>.
+Remaining foolish errors or omissions are mine.</p>
+</blockquote>
+
+          
+      </section>
+      <div class="footer"></div>		
+    </div>
+  </body>
+</html>
