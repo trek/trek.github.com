@@ -174,7 +174,7 @@ App.ApplicationController = Ember.Controller.extend();
 Every view has a rendering context. This is the object where Handlebars
 templates will look for properties. So, if your template looks like this:
 
-    {{name}}
+    {% raw %}{{name}}{% endraw %}
 
 and its rendering context has a `name` property, you'll see the value outputted.
 If there is no property, you'll see nothing.
@@ -258,7 +258,7 @@ currently empty `application` template:
 ```handlebars
 <script type="text/x-handlebars" data-template-name="application">
   <h1>Ember Committers</h1>
-  {{outlet}}
+  {% raw %}{{outlet}}{% endraw %}
 </script>
 ```
 
@@ -278,9 +278,9 @@ App.AllContributorsView = Ember.View.extend({
 ```handlebars
 // in your page body or head:
 <script type="text/x-handlebars" data-template-name="contributors">
-  {{#each person in controller}}
-    {{person.login}}
-  {{/each}}
+  {% raw %}{{#each person in controller}}{% endraw %}
+    {% raw %}{{person.login}}{% endraw %}
+  {% raw %}{{/each}}{% endraw %}
 </script>
 ```
 
@@ -330,8 +330,8 @@ index: Ember.Route.extend({
 When your application is loaded at the url `'/'`, Ember will automatically
 transition the application into the state I've called `index`. `connectOutlets`
 is called on this state. It acts as a callback for us to connect sections of our
-view hierarchy (designated with `{{outlet}}`) to specific views based on the
-state. In this case I want to connect the `{{outlet}}` in our application
+view hierarchy (designated with `{% raw %}{{outlet}}{% endraw %}`) to specific views based on the
+state. In this case I want to connect the `{% raw %}{{outlet}}{% endraw %}` in our application
 template with markup for all our contributors so I access the application's
 single shared instance of `ApplicationController` and call `connectOutlet` on
 it with `'allContributors'` as an argument.
@@ -346,7 +346,7 @@ Controllers have the ability to connect outlets in the views they control. In th
 above example, I'm calling `connectOutlet` with `'allContributors'` as an argument.
 This will create an instance of `AllContributorsView` for us, set the shared instance of
 `AllContributorsController` as the view's default rendering context, and insert
-it into our view hierarchy at the point where `{{outlet}}` appears in the
+it into our view hierarchy at the point where `{% raw %}{{outlet}}{% endraw %}` appears in the
 application template. The second argument, which I've hard coded as an array of
 two object literals, is set as the `content` of the controller instance. (Those
 who fear this kind of "magic" are free to read the documentation for Controllers
@@ -363,15 +363,15 @@ The `AllContributorsController` is a subclass of Ember's `ArrayController` class
 `ArrayController`s acts as containers for any array-like object in Ember and
 simply proxy undefined properties or methods to the underlying `content` array.
 
-In our template, the each call (`{{each person in controller}}`) is passed along
+In our template, the each call (`{% raw %}{{each person in controller}}{% endraw %}`) is passed along
 to the `content` of our ArrayController which I've hard-coded as an array of two
 object literals with a single property each.
 
 ```handlebars
 <script type="text/x-handlebars" data-template-name="contributors">
-  {{#each person in controller}}
-    {{person.login}}
-  {{/each}}
+  {% raw %}{{#each person in controller}}{% endraw %}
+    {% raw %}{{person.login}}{% endraw %}
+  {% raw %}{{/each}}{% endraw %}
 </script>
 ```
 
@@ -580,24 +580,24 @@ of each contributor:
 
 ```handlebars
 <script type="text/x-handlebars" data-template-name="contributors">
-  {{#each person in controller}}
-    {{person.login}}
-  {{/each}}
+  {% raw %}{{#each person in controller}}{% endraw %}
+    {% raw %}{{person.login}}{% endraw %}
+  {% raw %}{{/each}}{% endraw %}
 </script>
 ```
 
-We're going to encase that login in an `<a>` tag that includes a call to the `{{action}}` helper:
+We're going to encase that login in an `<a>` tag that includes a call to the `{% raw %}{{action}}{% endraw %}` helper:
 
 
 ```handlebars
 <script type="text/x-handlebars" data-template-name="contributors">
-  {{#each person in controller}}
-    <a {{action showContributor person}}> {{person.login}} </a>
-  {{/each}}
+  {% raw %}{{#each person in controller}}{% endraw %}
+    <a {% raw %}{{action showContributor person}}{% endraw %}> {% raw %}{{person.login}}{% endraw %} </a>
+  {% raw %}{{/each}}{% endraw %}
 </script>
 ```
 
-The `{{action}}` helper goes _within_ the opening tag of an element (here, the
+The `{% raw %}{{action}}{% endraw %}` helper goes _within_ the opening tag of an element (here, the
 `<a>`) and takes two arguments. The first, `showContributor`, is the action we'd
 like to send to the current state of the application and the second, `person`,
 will become the `context` argument passed through various callbacks in the
@@ -648,7 +648,7 @@ App.OneContributorController = Ember.ObjectController.extend();
 ```handlebars
 // in your HTML document
 <script type="text/x-handlebars" data-template-name="a-contributor">
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 </script>
 ```
 
@@ -676,7 +676,7 @@ that the default target for any view is the application's router.
 
 The router will delegate this action name to the current state. If the action is
 present on the state, it will be called with the object you provided as the
-second argument to `{{action}}` as a context argument. If it's not present, the
+second argument to `{% raw %}{{action}}{% endraw %}` as a context argument. If it's not present, the
 router will walk up through the state tree towards `root` looking for a matching
 action name.
 
@@ -684,7 +684,7 @@ Since our state _does_ have a matching name,
 `showContributor: Ember.Route.transitionTo('aContributor')`, it's called. This function
 transitions the router to the name state ('aContributor') and calls its
 `connectOutlets` callback with the router as the first argument and the context
-from the `{{action}}` helper as the second argument:
+from the `{% raw %}{{action}}{% endraw %}` helper as the second argument:
 
 ```javascript
 connectOutlets: function(router, context){
@@ -834,7 +834,7 @@ Right now the template is pretty simple:
 
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 </script>
 ```
 
@@ -844,9 +844,9 @@ state:
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
-    <a {{action showAllContributors}}>All Contributors</a>
+    <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
   </div>
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 </script>
 ```
 
@@ -940,10 +940,10 @@ details: Ember.Route.extend({
 
 When we transition into 'aContributor', its callbacks (`connectOutlets`,
 `serialize`, optionally `deserialize` if we're transitioning during application
-load) are called. This means the `{{outlet}}` in our application template is
+load) are called. This means the `{% raw %}{{outlet}}{% endraw %}` in our application template is
 filled with an instance of `OneContributorView` with the shared instance of
 `OneContributorController` used as its default rendering context. The `context`
-argument is passed from the `{{action showContributor contributor}}`, through
+argument is passed from the `{% raw %}{{action showContributor contributor}}{% endraw %}`, through
 the transition, and into this callback. We then pass it along as the second
 argument to `connectOutlet` and it becomes the `content` property of the shared
 `OneContributorController` instance.
@@ -957,7 +957,7 @@ connectOutlets: function(router){
 }
 ```
 
-In this callback we're connecting an `{{outlet}}` that we'll place inside the
+In this callback we're connecting an `{% raw %}{{outlet}}{% endraw %}` that we'll place inside the
 template for a contributor (yes, outlets can be nested inside other outlets as
 deeply as you'd like to). Go ahead and change
 
@@ -965,9 +965,9 @@ deeply as you'd like to). Go ahead and change
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
-    <a {{action showAllContributors}}>All Contributors</a>
+    <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
   </div>
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 </script>
 ```
 
@@ -976,12 +976,12 @@ to
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
-    <a {{action showAllContributors}}>All Contributors</a>
+    <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
   </div>
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 
   <div>
-    {{outlet}}
+    {% raw %}{{outlet}}{% endraw %}
   </div>
 </script>
 ```
@@ -1002,8 +1002,8 @@ App.DetailsView = Ember.View.extend({
 
 ```handlebars
 <script type="text/x-handlebars" data-template-name="contributor-details">
-  <p>{{email}}</p>
-  <p>{{bio}}</p>
+  <p>{% raw %}{{email}}{% endraw %}</p>
+  <p>{% raw %}{{bio}}{% endraw %}</p>
 </script>
 ```
 
@@ -1053,12 +1053,12 @@ this:
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
-    <a {{action showAllContributors}}>All Contributors</a>
+    <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
   </div>
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 
   <div>
-    {{outlet}}
+    {% raw %}{{outlet}}{% endraw %}
   </div>
 </script>
 ```
@@ -1068,17 +1068,17 @@ And after we've added two actions:
 ```handlebars
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
-    <a {{action showAllContributors}}>All Contributors</a>
+    <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
   </div>
-  {{login}} - {{contributions}} contributions to Ember.js
+  {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 
   <ul>
-    <li><a {{action showDetails}}>Details</a></li>
-    <li><a {{action showRepos}}>Repos</a></li>
+    <li><a {% raw %}{{action showDetails}}{% endraw %}>Details</a></li>
+    <li><a {% raw %}{{action showRepos}}{% endraw %}>Repos</a></li>
   </ul>
 
   <div>
-    {{outlet}}
+    {% raw %}{{outlet}}{% endraw %}
   </div>
 </script>
 ```
@@ -1119,9 +1119,9 @@ view:
 ```
 ```handlebars
   <script type="text/x-handlebars" data-template-name="repos">
-    {{#each repo in repos}}
-       {{repo.name}}
-    {{/each}}
+    {% raw %}{{#each repo in repos}}{% endraw %}
+       {% raw %}{{repo.name}}{% endraw %}
+    {% raw %}{{/each}}{% endraw %}
   </script>
 ```
 
@@ -1130,7 +1130,7 @@ rendering context, the shared `OneContributorController`.
 `OneContributorController` is an subclass of `ObjectController`, so this `repos`
 lookup is proxied along to the controller's `content` property. The `content`
 is an instance of `App.Contributor` we've passed along through the
-`{{action}}`, transition, and `connectOutlets` callback.
+`{% raw %}{{action}}{% endraw %}`, transition, and `connectOutlets` callback.
 
 
 Reload the application, navigate back to this state, and you'll see a sad dearth
