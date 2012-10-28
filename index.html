@@ -208,6 +208,9 @@ as the root view.</p>
 
 <p>Every view has a rendering context. This is the object where Handlebars
 templates will look for properties. So, if your template looks like this:</p>
+<div class="highlight"><pre><code class="text">{{name}}
+</code></pre>
+</div>
 
 <p>and its rendering context has a <code>name</code> property, you&#39;ll see the value outputted.
 If there is no property, you&#39;ll see nothing.</p>
@@ -341,8 +344,8 @@ of applications the two frameworks were specifically created for.</p>
 <p>When your application is loaded at the url <code>&#39;/&#39;</code>, Ember will automatically
 transition the application into the state I&#39;ve called <code>index</code>. <code>connectOutlets</code>
 is called on this state. It acts as a callback for us to connect sections of our
-view hierarchy (designated with <code>) to specific views based on the
-state. In this case I want to connect the</code> in our application
+view hierarchy (designated with <code>{{outlet}}</code>) to specific views based on the
+state. In this case I want to connect the <code>{{outlet}}</code> in our application
 template with markup for all our contributors so I access the application&#39;s
 single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
 it with <code>&#39;allContributors&#39;</code> as an argument.</p>
@@ -357,9 +360,9 @@ matches the controller&#39;s classname but converted to lower-camel style:
 above example, I&#39;m calling <code>connectOutlet</code> with <code>&#39;allContributors&#39;</code> as an argument.
 This will create an instance of <code>AllContributorsView</code> for us, set the shared instance of
 <code>AllContributorsController</code> as the view&#39;s default rendering context, and insert
-it into our view hierarchy at the point where `<code>appears in the
+it into our view hierarchy at the point where <code>{{outlet}}</code> appears in the
 application template. The second argument, which I&#39;ve hard coded as an array of
-two object literals, is set as the</code>content` of the controller instance. (Those
+two object literals, is set as the <code>content</code> of the controller instance. (Those
 who fear this kind of &quot;magic&quot; are free to read the documentation for Controllers
 to see the full, maximally verbose and explicit arguments you can pass).</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">ArrayController</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
@@ -373,8 +376,8 @@ to see the full, maximally verbose and explicit arguments you can pass).</p>
 <code>ArrayController</code>s acts as containers for any array-like object in Ember and
 simply proxy undefined properties or methods to the underlying <code>content</code> array.</p>
 
-<p>In our template, the each call (`<code>) is passed along
-to the</code>content` of our ArrayController which I&#39;ve hard-coded as an array of two
+<p>In our template, the each call (<code>{{each person in controller}}</code>) is passed along
+to the <code>content</code> of our ArrayController which I&#39;ve hard-coded as an array of two
 object literals with a single property each.</p>
 
 <h2>Loading External Data</h2>
@@ -568,12 +571,12 @@ the application&#39;s state from &#39;contributors&#39; to &#39;aContributor&#39
 interaction. Currently our template just loops and prints the <code>login</code> property
 of each contributor:</p>
 
-<p>We&#39;re going to encase that login in an <code>&lt;a&gt;</code> tag that includes a call to the `` helper:</p>
+<p>We&#39;re going to encase that login in an <code>&lt;a&gt;</code> tag that includes a call to the <code>{{action}}</code> helper:</p>
 
-<p>The `<code>helper goes _within_ the opening tag of an element (here, the
-</code><a><code>) and takes two arguments. The first,</code>showContributor<code>, is the action we&#39;d
-like to send to the current state of the application and the second,</code>person<code>,
-will become the</code>context` argument passed through various callbacks in the
+<p>The <code>{{action}}</code> helper goes <em>within</em> the opening tag of an element (here, the
+<code>&lt;a&gt;</code>) and takes two arguments. The first, <code>showContributor</code>, is the action we&#39;d
+like to send to the current state of the application and the second, <code>person</code>,
+will become the <code>context</code> argument passed through various callbacks in the
 application&#39;s router.</p>
 
 <p>If you reload the application now you&#39;ll see that our logins have become links.
@@ -638,15 +641,15 @@ that the default target for any view is the application&#39;s router.</p>
 
 <p>The router will delegate this action name to the current state. If the action is
 present on the state, it will be called with the object you provided as the
-second argument to `<code>as a context argument. If it&#39;s not present, the
-router will walk up through the state tree towards</code>root` looking for a matching
+second argument to <code>{{action}}</code> as a context argument. If it&#39;s not present, the
+router will walk up through the state tree towards <code>root</code> looking for a matching
 action name.</p>
 
 <p>Since our state <em>does</em> have a matching name,
 <code>showContributor: Ember.Route.transitionTo(&#39;aContributor&#39;)</code>, it&#39;s called. This function
 transitions the router to the name state (&#39;aContributor&#39;) and calls its
 <code>connectOutlets</code> callback with the router as the first argument and the context
-from the `` helper as the second argument:</p>
+from the <code>{{action}}</code> helper as the second argument:</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
   <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;applicationController&#39;</span><span class="p">).</span><span class="nx">connectOutlet</span><span class="p">(</span><span class="s1">&#39;oneContributor&#39;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
 <span class="p">}</span>
@@ -876,10 +879,10 @@ and a second – &#39;repos&#39; – for showing a list of their repositories.</
 
 <p>When we transition into &#39;aContributor&#39;, its callbacks (<code>connectOutlets</code>,
 <code>serialize</code>, optionally <code>deserialize</code> if we&#39;re transitioning during application
-load) are called. This means the <code>in our application template is
-filled with an instance of `OneContributorView` with the shared instance of
-`OneContributorController` used as its default rendering context. The `context`
-argument is passed from the</code>, through
+load) are called. This means the <code>{{outlet}}</code> in our application template is
+filled with an instance of <code>OneContributorView</code> with the shared instance of
+<code>OneContributorController</code> used as its default rendering context. The <code>context</code>
+argument is passed from the <code>{{action showContributor contributor}}</code>, through
 the transition, and into this callback. We then pass it along as the second
 argument to <code>connectOutlet</code> and it becomes the <code>content</code> property of the shared
 <code>OneContributorController</code> instance.</p>
@@ -892,7 +895,7 @@ into the state &#39;aContributor.details&#39; and calls its <code>connectOutlets
 </code></pre>
 </div>
 
-<p>In this callback we&#39;re connecting an `` that we&#39;ll place inside the
+<p>In this callback we&#39;re connecting an <code>{{outlet}}</code> that we&#39;ll place inside the
 template for a contributor (yes, outlets can be nested inside other outlets as
 deeply as you&#39;d like to). Go ahead and change</p>
 
@@ -985,7 +988,7 @@ rendering context, the shared <code>OneContributorController</code>.
 <code>OneContributorController</code> is an subclass of <code>ObjectController</code>, so this <code>repos</code>
 lookup is proxied along to the controller&#39;s <code>content</code> property. The <code>content</code>
 is an instance of <code>App.Contributor</code> we&#39;ve passed along through the
-`<code>, transition, and</code>connectOutlets` callback.</p>
+<code>{{action}}</code>, transition, and <code>connectOutlets</code> callback.</p>
 
 <p>Reload the application, navigate back to this state, and you&#39;ll see a sad dearth
 of repos. As with &#39;aContributor.details&#39; we need to request the appropriate data
