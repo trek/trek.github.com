@@ -1,0 +1,94 @@
+/*
+  Dark: #2e2e2e;
+*/
+body {
+  padding:0 10px;
+  color:#494949;
+  font-size: 17px;
+  font-weight:400;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+}
+
+p {
+  line-height: 1.51em;
+}
+.ss-icon {
+  font-size: 20px;
+}
+section {
+  border-top:3px solid #494949;
+}
+
+h1 {
+  font-family: 'Bree Serif', Helvetica, sans-serif;
+  font-size: 32px;
+  font-weight:300;
+}
+
+h2 {
+  font-size:24px;
+}
+
+a .ss-icon {
+  float:right;
+  margin-left:9px;
+  color:#494949;
+}
+a {
+  text-decoration:none;
+  color:#4183C4;
+}
+
+blockquote {
+  margin:0;
+  padding-left:20px;
+  border-left:12px solid #F8F8F8;
+  font-style:italic;
+}
+
+section, header, .footer {
+  float-left;
+  margin-left:240px;
+  width: 700px;
+}
+
+.highlight, p code {
+  overflow: scroll;
+  white-space: nowrap;
+  border: 1px solid #EAEAEA;
+  background-color: #F8F8F8;
+  border-radius: 3px;
+  margin: 0 2px;
+  padding: 0px 5px;
+}
+
+.highlight { padding: 15px; }
+pre { margin: 0; }
+
+.about {
+  padding-top:35px;
+  font-size: 13px;
+  width:205px;
+  float:left;
+}
+
+.footer {
+  height:255px;
+  /* 
+    2529401145:
+    From A Philosopher's Advice, or The Seer's Mystery; 
+    A Book of anecdote and method of fortelling [sic] the future 
+    by Lyman E. Stowe. c. 1900.
+ */
+  background: 50% url(images/oldtimer.png) no-repeat;
+}
+
+.wrapper {
+  width:940px;
+  margin: 0 auto;
+}
+
+span.amp {
+  font-family:Baskerville,'Goudy Old Style',Palatino,'Book Antiqua',serif;
+  font-style:italic;
+}

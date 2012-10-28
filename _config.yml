@@ -1,0 +1,5 @@
+server: true
+markdown: redcarpet2
+permalink: /:title
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables"]
