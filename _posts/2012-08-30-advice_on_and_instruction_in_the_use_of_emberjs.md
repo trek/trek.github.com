@@ -564,7 +564,7 @@ aContributor: Ember.Route.extend({
 })
 ```
 
-I've supplied a `route` property of `':/githubUserName'`, which we'll use later
+I've supplied a `route` property of `'/:githubUserName'`, which we'll use later
 to serialize and deserialize this state. I've implemented the `connectOutlets`
 method with two arguments: one to represent the entire router and one, called
 `context`, which will help answer the question "_which_ contributor" later on.
