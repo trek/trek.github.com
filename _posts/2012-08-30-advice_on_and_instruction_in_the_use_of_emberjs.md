@@ -255,7 +255,7 @@ Let's start that process by adding some markup and an `outlet` into our
 currently empty `application` template:
 
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="application">
   <h1>Ember Committers</h1>
   {% raw %}{{outlet}}{% endraw %}
@@ -275,7 +275,7 @@ App.AllContributorsView = Ember.View.extend({
   templateName: 'contributors'
 });
 ```
-```handlebars
+```
 // in your page body or head:
 <script type="text/x-handlebars" data-template-name="contributors">
   {% raw %}{{#each person in controller}}{% endraw %}
@@ -367,7 +367,7 @@ In our template, the each call (`{% raw %}{{each person in controller}}{% endraw
 to the `content` of our ArrayController which I've hard-coded as an array of two
 object literals with a single property each.
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="contributors">
   {% raw %}{{#each person in controller}}{% endraw %}
     {% raw %}{{person.login}}{% endraw %}
@@ -578,7 +578,7 @@ the application's state from 'contributors' to 'aContributor' through
 interaction. Currently our template just loops and prints the `login` property
 of each contributor:
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="contributors">
   {% raw %}{{#each person in controller}}{% endraw %}
     {% raw %}{{person.login}}{% endraw %}
@@ -589,7 +589,7 @@ of each contributor:
 We're going to encase that login in an `<a>` tag that includes a call to the `{% raw %}{{action}}{% endraw %}` helper:
 
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="contributors">
   {% raw %}{{#each person in controller}}{% endraw %}
     <a {% raw %}{{action showContributor person}}{% endraw %}> {% raw %}{{person.login}}{% endraw %} </a>
@@ -645,7 +645,7 @@ App.OneContributorView = Ember.View.extend({
 });
 App.OneContributorController = Ember.ObjectController.extend();
 ```
-```handlebars
+```
 // in your HTML document
 <script type="text/x-handlebars" data-template-name="a-contributor">
   {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
@@ -832,7 +832,7 @@ add a "back to all contributors" navigation to our template for a single contrib
 
 Right now the template is pretty simple:
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   {% raw %}{{login}}{% endraw %} - {% raw %}{{contributions}}{% endraw %} contributions to Ember.js
 </script>
@@ -841,7 +841,7 @@ Right now the template is pretty simple:
 Let's add an element with an action to transition back to the 'contributors'
 state:
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
     <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
@@ -962,7 +962,7 @@ template for a contributor (yes, outlets can be nested inside other outlets as
 deeply as you'd like to). Go ahead and change
 
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
     <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
@@ -973,7 +973,7 @@ deeply as you'd like to). Go ahead and change
 
 to
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
     <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
@@ -1000,7 +1000,7 @@ App.DetailsView = Ember.View.extend({
 })
 ```
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="contributor-details">
   <p>{% raw %}{{email}}{% endraw %}</p>
   <p>{% raw %}{{bio}}{% endraw %}</p>
@@ -1050,7 +1050,7 @@ What about transitioning between our 'aContributor.details' and
 Update our view to provide some navigational elements. Currently it looks like
 this:
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
     <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
@@ -1065,7 +1065,7 @@ this:
 
 And after we've added two actions:
 
-```handlebars
+```
 <script type="text/x-handlebars" data-template-name="a-contributor">
   <div>
     <a {% raw %}{{action showAllContributors}}{% endraw %}>All Contributors</a>
@@ -1117,7 +1117,7 @@ view:
     templateName: 'repos'
   })
 ```
-```handlebars
+```
   <script type="text/x-handlebars" data-template-name="repos">
     {% raw %}{{#each repo in repos}}{% endraw %}
        {% raw %}{{repo.name}}{% endraw %}
