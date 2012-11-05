@@ -285,6 +285,12 @@ committers to the main Ember repository.</p>
 
 <p>Let&#39;s start that process by adding some markup and an <code>outlet</code> into our
 currently empty <code>application</code> template:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;application&quot;&gt;
+  &lt;h1&gt;Ember Committers&lt;/h1&gt;
+  {{outlet}}
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>An <code>outlet</code> helper defines sections of a template where we will change specific
 portions of the view hierarchy in response to state change. Any template (not
@@ -296,6 +302,14 @@ lets you express really nuanced view hierarchies with minimal effort.</p>
 <span class="nx">App</span><span class="p">.</span><span class="nx">AllContributorsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributors&#39;</span>
 <span class="p">});</span>
+</code></pre>
+</div>
+<div class="highlight"><pre><code class="text">// in your page body or head:
+&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;contributors&quot;&gt;
+  {{#each person in controller}}
+    {{person.login}}
+  {{/each}}
+&lt;/script&gt;
 </code></pre>
 </div>
 
@@ -377,6 +391,13 @@ simply proxy undefined properties or methods to the underlying <code>content</co
 <p>In our template, the each call (<code>{{each person in controller}}</code>) is passed along
 to the <code>content</code> of our ArrayController which I&#39;ve hard-coded as an array of two
 object literals with a single property each.</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;contributors&quot;&gt;
+  {{#each person in controller}}
+    {{person.login}}
+  {{/each}}
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <h2>Loading External Data</h2>
 
@@ -568,8 +589,22 @@ instance of <code>ApplicationView</code>) to a pairing of
 the application&#39;s state from &#39;contributors&#39; to &#39;aContributor&#39; through
 interaction. Currently our template just loops and prints the <code>login</code> property
 of each contributor:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;contributors&quot;&gt;
+  {{#each person in controller}}
+    {{person.login}}
+  {{/each}}
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>We&#39;re going to encase that login in an <code>&lt;a&gt;</code> tag that includes a call to the <code>{{action}}</code> helper:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;contributors&quot;&gt;
+  {{#each person in controller}}
+    &lt;a {{action showContributor person}}&gt; {{person.login}} &lt;/a&gt;
+  {{/each}}
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>The <code>{{action}}</code> helper goes <em>within</em> the opening tag of an element (here, the
 <code>&lt;a&gt;</code>) and takes two arguments. The first, <code>showContributor</code>, is the action we&#39;d
@@ -613,6 +648,12 @@ the missing view class.</p>
   <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;a-contributor&#39;</span>
 <span class="p">});</span>
 <span class="nx">App</span><span class="p">.</span><span class="nx">OneContributorController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">ObjectController</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+</code></pre>
+</div>
+<div class="highlight"><pre><code class="text">// in your HTML document
+&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+&lt;/script&gt;
 </code></pre>
 </div>
 
@@ -788,9 +829,22 @@ robust UIs by repeating this process until you&#39;re happy. Let&#39;s repeat th
 add a &quot;back to all contributors&quot; navigation to our template for a single contributor:</p>
 
 <p>Right now the template is pretty simple:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>Let&#39;s add an element with an action to transition back to the &#39;contributors&#39;
 state:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  &lt;div&gt;
+    &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
+  &lt;/div&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>Add this action to the &#39;aContributor&#39; state:</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">aContributor</span><span class="o">:</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
@@ -896,8 +950,28 @@ into the state &#39;aContributor.details&#39; and calls its <code>connectOutlets
 <p>In this callback we&#39;re connecting an <code>{{outlet}}</code> that we&#39;ll place inside the
 template for a contributor (yes, outlets can be nested inside other outlets as
 deeply as you&#39;d like to). Go ahead and change</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  &lt;div&gt;
+    &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
+  &lt;/div&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>to</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  &lt;div&gt;
+    &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
+  &lt;/div&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+
+  &lt;div&gt;
+    {{outlet}}
+  &lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>And add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
 In the absence of a controller with a matching name, Ember will just use the
@@ -907,6 +981,12 @@ to the contributor we&#39;re interested in:</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">DetailsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributor-details&#39;</span>
 <span class="p">})</span>
+</code></pre>
+</div>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;contributor-details&quot;&gt;
+  &lt;p&gt;{{email}}&lt;/p&gt;
+  &lt;p&gt;{{bio}}&lt;/p&gt;
+&lt;/script&gt;
 </code></pre>
 </div>
 
@@ -949,8 +1029,37 @@ and transition to this state again to see the updated view.</p>
 &#39;aContributor.repos&#39; state? This should begin to look boringly familiar soon.
 Update our view to provide some navigational elements. Currently it looks like
 this:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  &lt;div&gt;
+    &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
+  &lt;/div&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+
+  &lt;div&gt;
+    {{outlet}}
+  &lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>And after we&#39;ve added two actions:</p>
+<div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
+  &lt;div&gt;
+    &lt;a {{action showAllContributors}}&gt;All Contributors&lt;/a&gt;
+  &lt;/div&gt;
+  {{login}} - {{contributions}} contributions to Ember.js
+
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a {{action showDetails}}&gt;Details&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a {{action showRepos}}&gt;Repos&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;div&gt;
+    {{outlet}}
+  &lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+</div>
 
 <p>Create the new transitions. I&#39;ve placed them both within the &#39;aContributor&#39;
 state itself:</p>
@@ -978,6 +1087,13 @@ view:</p>
 <div class="highlight"><pre><code class="javascript">  <span class="nx">App</span><span class="p">.</span><span class="nx">ReposView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
     <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;repos&#39;</span>
   <span class="p">})</span>
+</code></pre>
+</div>
+<div class="highlight"><pre><code class="text">  &lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;repos&quot;&gt;
+    {{#each repo in repos}}
+       {{repo.name}}
+    {{/each}}
+  &lt;/script&gt;
 </code></pre>
 </div>
 
