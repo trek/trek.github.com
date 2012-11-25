@@ -69,5 +69,5 @@
 
 .highlight pre {
   white-space: pre;
-  word-wrap: break-word;
+  word-wrap: normal;
 }
