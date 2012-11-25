@@ -62,6 +62,11 @@ section, header, .footer {
   padding: 0px 5px;
 }
 
+.highlight pre {
+  white-space: pre;
+  word-wrap: normal;
+}
+
 .highlight { padding: 15px; }
 pre { margin: 0; }
 
@@ -74,10 +79,10 @@ pre { margin: 0; }
 
 .footer {
   height:255px;
-  /* 
+  /*
     2529401145:
-    From A Philosopher's Advice, or The Seer's Mystery; 
-    A Book of anecdote and method of fortelling [sic] the future 
+    From A Philosopher's Advice, or The Seer's Mystery;
+    A Book of anecdote and method of fortelling [sic] the future
     by Lyman E. Stowe. c. 1900.
  */
   background: 50% url(images/oldtimer.png) no-repeat;

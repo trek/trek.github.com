@@ -128,7 +128,7 @@ comparison. Although their output is the same (i.e. a &quot;web app&quot;) they 
 belong in the same category.</p>
 
 <p>I apologize for the long preamble, but we&#39;re exploring some concepts and
-I want to be sure you&#39;re willing to allow that their strangeness is not due to
+I want to be sure you&#39;re willing to allow that their strangeness are not due to
 the poor architecture of Ember but to your unfamiliarity with them. If you&#39;re
 willing to learn no matter how funky weird things appear at first, read on. If
 you&#39;re looking to troll then just skim on: you&#39;ll find <em>lots</em> of things to
@@ -171,7 +171,7 @@ explore</a>.</p>
 </code></pre>
 </div>
 
-<p>This line creates a new instance of <code>Ember.Application</code>. <code>Application</code> does two handy things:</p>
+<p>This line creates a new instance of <code>Ember.Application</code> which does two handy things:</p>
 
 <ul>
 <li>provides one location for all your objects so we avoid <a href="https://www.google.com/search?q=don&#x27;t+pollute+the+global+namespace">polluting the global namespace</a>.</li>
@@ -263,7 +263,7 @@ offered it would be only a fraction as useful for serious and robust development
 container for all subsequent routes. You can think of it as the route set,
 rather than a proper route itself. The second <code>index</code>, can be called whatever
 you like. The key feature is that it has a <code>route</code> property of <code>&#39;/&#39;</code>. When your
-application loads, Ember will being looking through its internal route maps to
+application loads, Ember will look through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url <code>&#39;/&#39;</code> your Router will automatically transition into this state.</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
@@ -313,7 +313,7 @@ lets you express really nuanced view hierarchies with minimal effort.</p>
 </code></pre>
 </div>
 
-<p>Within the state that matches for the index path (<code>&#39;/&#39;</code>), implement a
+<p>Within the state that matches the index path (<code>&#39;/&#39;</code>), implement a
 <code>connectOutlets</code> method. It takes a single argument that will be your
 application&#39;s router. Within that method get the single instance of our
 <code>ApplicationController</code> class and connect its outlet with the <code>connectOutlet</code>
@@ -454,7 +454,7 @@ to a – as yet unimplemented – <code>Contributor</code> class and a <code>fin
 </code></pre>
 </div>
 
-<p>This creates a new class and reopens that class to add class (sometimes called
+<p>This creates a new class and reopens that class to add a class (sometimes called
 &#39;static&#39;) method:</p>
 
 <p>If you reload your application you&#39;ll see that nothing renders now. This is
@@ -672,7 +672,7 @@ for what is happening on transitions:</p>
 </code></pre>
 </div>
 
-<p>Let&#39;s unpack what&#39;s going on when we click that link. Ember has registered
+<p>Let&#39;s unpack what&#39;s going on when we click that link. Ember has registered a
 listener on the <code>&lt;a&gt;</code> element for you (so, no, this is nothing like going back
 to <em>ye olde onclick</em> days) that will call the matching action name
 (<code>showContributor</code>) on the <code>target</code> property of the view. It just so happens
@@ -753,7 +753,7 @@ the URL updates to &#39;#/undefined&#39; again.</p>
 <p>When we load an Ember application at a particular url it will attempt to match
 and transition into a state with matching <code>route</code> pattern and call the state&#39;s
 <code>connectOutlets</code> and <code>serialize</code> callbacks. When we reload at &#39;#/kselden&#39;, for
-example, The router matches to the state with the <code>route</code> pattern of
+example, The router matches the state with the <code>route</code> pattern of
 &#39;/:githubUserName&#39;, transitions into it, then calls <code>connectOutlets</code> with the
 router as the first argument and a second argument of ... no context at all.
 Finally, <code>serialize</code> is called, also with an <code>undefined</code> context, and the
@@ -817,7 +817,7 @@ control development of both client and server it&#39;s typical.</p>
 the &#39;aContributor&#39; states&#39;s deserialize method. Then we set up some ajax and
 immediately return the <code>Contributor</code> instance. When the ajax completes we find
 just the contributor we&#39;re interested in by looking for the first result with a
-a matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
+matching username (using <code>findProperty</code>) and update the returned <code>Contributor</code>
 instance&#39;s properties with <code>setProperties</code>, which will trigger a view update of
 any sections bound to properties whose values have changed.</p>
 
@@ -973,10 +973,10 @@ deeply as you&#39;d like to). Go ahead and change</p>
 </code></pre>
 </div>
 
-<p>And add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
+<p>and add <code>DetailsView</code> and template. You can skip creating a <code>DetailsController</code>.
 In the absence of a controller with a matching name, Ember will just use the
 rendering context of the parent template, which in our case is the shared
-instance of <code>OneContributorController</code> with its <code>context</code> property already set
+instance of <code>OneContributorController</code> with its <code>content</code> property already set
 to the contributor we&#39;re interested in:</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">DetailsView</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">templateName</span><span class="o">:</span> <span class="s1">&#39;contributor-details&#39;</span>
@@ -1106,7 +1106,7 @@ is an instance of <code>App.Contributor</code> we&#39;ve passed along through th
 
 <p>Reload the application, navigate back to this state, and you&#39;ll see a sad dearth
 of repos. As with &#39;aContributor.details&#39; we need to request the appropriate data
-to display. Update the <code>connectOutlets</code> of &#39;aContributor.details&#39; to include a
+to display. Update the <code>connectOutlets</code> of &#39;aContributor.repos&#39; to include a
 stubbed method for fetching repos:</p>
 <div class="highlight"><pre><code class="javascript">  <span class="nx">connectOutlets</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">){</span>
     <span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;oneContributorController.content&#39;</span><span class="p">).</span><span class="nx">loadRepos</span><span class="p">();</span>
