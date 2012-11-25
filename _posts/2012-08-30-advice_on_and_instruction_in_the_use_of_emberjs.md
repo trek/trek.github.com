@@ -97,7 +97,7 @@ comparison. Although their output is the same (i.e. a "web app") they just don't
 belong in the same category.
 
 I apologize for the long preamble, but we're exploring some concepts and
-I want to be sure you're willing to allow that their strangeness is not due to
+I want to be sure you're willing to allow that their strangeness are not due to
 the poor architecture of Ember but to your unfamiliarity with them. If you're
 willing to learn no matter how funky weird things appear at first, read on. If
 you're looking to troll then just skim on: you'll find _lots_ of things to
@@ -141,7 +141,7 @@ Let's examine each piece in isolation.
 ```javascript
 App = Ember.Application.create();
 ```
-This line creates a new instance of `Ember.Application`. `Application` does two handy things:
+This line creates a new instance of `Ember.Application` which does two handy things:
 
   * provides one location for all your objects so we avoid [polluting the global namespace](https://www.google.com/search?q=don't+pollute+the+global+namespace).
   * creates one listener for each user event (e.g. 'click') and [controls event delegation](https://www.google.com/search?q=event+delegation).
@@ -231,7 +231,7 @@ Your router must have these two routes. The first, `root`, really just acts as a
 container for all subsequent routes. You can think of it as the route set,
 rather than a proper route itself. The second `index`, can be called whatever
 you like. The key feature is that it has a `route` property of `'/'`. When your
-application loads, Ember will being looking through its internal route maps to
+application loads, Ember will look through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url `'/'` your Router will automatically transition into this state.
 
@@ -284,7 +284,7 @@ App.AllContributorsView = Ember.View.extend({
 </script>
 ```
 
-Within the state that matches for the index path (`'/'`), implement a
+Within the state that matches the index path (`'/'`), implement a
 `connectOutlets` method. It takes a single argument that will be your
 application's router. Within that method get the single instance of our
 `ApplicationController` class and connect its outlet with the `connectOutlet`
@@ -435,7 +435,7 @@ App.Contributor.reopenClass({
 });
 ```
 
-This creates a new class and reopens that class to add class (sometimes called
+This creates a new class and reopens that class to add a class (sometimes called
 'static') method:
 
 If you reload your application you'll see that nothing renders now. This is
@@ -668,7 +668,7 @@ App.Router = Ember.Router.extend({
 })
 ```
 
-Let's unpack what's going on when we click that link. Ember has registered
+Let's unpack what's going on when we click that link. Ember has registered a
 listener on the `<a>` element for you (so, no, this is nothing like going back
 to _ye olde onclick_ days) that will call the matching action name
 (`showContributor`) on the `target` property of the view. It just so happens
@@ -751,7 +751,7 @@ the URL updates to '#/undefined' again.
 When we load an Ember application at a particular url it will attempt to match
 and transition into a state with matching `route` pattern and call the state's
 `connectOutlets` and `serialize` callbacks. When we reload at '#/kselden', for
-example, The router matches to the state with the `route` pattern of
+example, The router matches the state with the `route` pattern of
 '/:githubUserName', transitions into it, then calls `connectOutlets` with the
 router as the first argument and a second argument of ... no context at all.
 Finally, `serialize` is called, also with an `undefined` context, and the
@@ -820,7 +820,7 @@ The order of execution for this method is: create a new `Contributor` object wit
 the 'aContributor' states's deserialize method. Then we set up some ajax and
 immediately return the `Contributor` instance. When the ajax completes we find
 just the contributor we're interested in by looking for the first result with a
-a matching username (using `findProperty`) and update the returned `Contributor`
+matching username (using `findProperty`) and update the returned `Contributor`
 instance's properties with `setProperties`, which will trigger a view update of
 any sections bound to properties whose values have changed.
 
@@ -987,10 +987,10 @@ to
 ```
 
 
-And add `DetailsView` and template. You can skip creating a `DetailsController`.
+and add `DetailsView` and template. You can skip creating a `DetailsController`.
 In the absence of a controller with a matching name, Ember will just use the
 rendering context of the parent template, which in our case is the shared
-instance of `OneContributorController` with its `context` property already set
+instance of `OneContributorController` with its `content` property already set
 to the contributor we're interested in:
 
 
@@ -1135,7 +1135,7 @@ is an instance of `App.Contributor` we've passed along through the
 
 Reload the application, navigate back to this state, and you'll see a sad dearth
 of repos. As with 'aContributor.details' we need to request the appropriate data
-to display. Update the `connectOutlets` of 'aContributor.details' to include a
+to display. Update the `connectOutlets` of 'aContributor.repos' to include a
 stubbed method for fetching repos:
 
 ```javascript
