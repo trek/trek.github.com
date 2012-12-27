@@ -1034,7 +1034,7 @@ App.Contributor = Ember.Object.extend({
       dataType: 'jsonp',
       success: function(response){
         this.setProperties(response.data);
-      })
+      }
     })
   }
 });
