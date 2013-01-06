@@ -38,7 +38,7 @@
 
 <blockquote>
 <p>Hey! Ember has a <a href="http://emberjs.com/guides/routing/">brand new router</a> on master
-with an an even better API.
+with an even better API.
 This article still references the current release version of Ember (1.0.pre2), 
 but will soon be outdated. I&#39;ll be removing the tutorial bits when 
 they no longer apply.</p>
@@ -162,8 +162,6 @@ explore</a>.</p>
     <span class="p">})</span>
   <span class="p">})</span>
 <span class="p">});</span>
-
-<span class="nx">App</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
 </code></pre>
 </div>
 
@@ -274,12 +272,9 @@ you like. The key feature is that it has a <code>route</code> property of <code>
 application loads, Ember will look through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url <code>&#39;/&#39;</code> your Router will automatically transition into this state.</p>
-<div class="highlight"><pre><code class="javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
-</code></pre>
-</div>
 
-<p>Finally, calling <code>initialize</code> on your application starts the application&#39;s
-routing process, sets up the necessary internal structure based on configuration
+<p>Finally your application starts the routing process, 
+sets up the necessary internal structure based on configuration
 we&#39;ve done earlier, and inserts an instance of your <code>ApplicationView</code> (with an
 instance of <code>ApplicationController</code> as its rending context) into the page.</p>
 
@@ -370,7 +365,7 @@ template with markup for all our contributors so I access the application&#39;s
 single shared instance of <code>ApplicationController</code> and call <code>connectOutlet</code> on
 it with <code>&#39;allContributors&#39;</code> as an argument.</p>
 
-<p>When our application is <code>initialize</code>ed, a single shared instance of each
+<p>When our application is started, a single shared instance of each
 controller is created for us. Because you&#39;ll most likely access this instance
 from the router, it&#39;s placed as a property of the router with a name that
 matches the controller&#39;s classname but converted to lower-camel style:
@@ -393,7 +388,7 @@ to see the full, maximally verbose and explicit arguments you can pass).</p>
 </div>
 
 <p>The <code>AllContributorsController</code> is a subclass of Ember&#39;s <code>ArrayController</code> class.
-<code>ArrayController</code>s acts as containers for any array-like object in Ember and
+<code>ArrayController</code>s act as containers for array-like objects in Ember and
 simply proxy undefined properties or methods to the underlying <code>content</code> array.</p>
 
 <p>In our template, the each call (<code>{{each person in controller}}</code>) is passed along
@@ -834,7 +829,7 @@ any sections bound to properties whose values have changed.</p>
 <p>That&#39;s an Ember application. States, transitioning between them, and
 loading data when you need it. You can build up surprisingly sophisticated and
 robust UIs by repeating this process until you&#39;re happy. Let&#39;s repeat this by
-add a &quot;back to all contributors&quot; navigation to our template for a single contributor:</p>
+adding a &quot;back to all contributors&quot; navigation to our template for a single contributor:</p>
 
 <p>Right now the template is pretty simple:</p>
 <div class="highlight"><pre><code class="text">&lt;script type=&quot;text/x-handlebars&quot; data-template-name=&quot;a-contributor&quot;&gt;
@@ -1021,7 +1016,7 @@ state to fetch additional details. Let&#39;s stub out a call to this in the
       <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
       <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">setProperties</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
-      <span class="p">})</span>
+      <span class="p">}</span>
     <span class="p">})</span>
   <span class="p">}</span>
 <span class="p">});</span>
