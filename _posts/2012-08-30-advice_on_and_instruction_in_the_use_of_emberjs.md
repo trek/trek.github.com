@@ -3,6 +3,13 @@ layout: default
 title: Advice on & Instruction in the use of Ember.js
 ---
 # Advice on & Instruction in the Use Of Ember.js
+
+> Hey! Ember has a [brand new router](http://emberjs.com/guides/routing/) on master
+with an an even better API.
+This article still references the current release version of Ember (1.0.pre2), 
+but will soon be outdated. I'll be removing the tutorial bits when 
+they no longer apply.
+
 [Ember.js](http://emberjs.com/) &mdash; for the unaware &mdash; is an application framework
 for building sophisticated browser applications. I'm a frequent contributor to
 the project and use it professionally at my current gig with [Groupon
@@ -125,7 +132,6 @@ App.Router = Ember.Router.extend({
   })
 });
 
-App.initialize();
 ```
 
 And in our HTML document body or head:
@@ -235,12 +241,9 @@ application loads, Ember will look through its internal route maps to
 find one that matches the url in the browser. If you enter the application at
 the url `'/'` your Router will automatically transition into this state.
 
-```javascript
-App.initialize();
-```
 
-Finally, calling `initialize` on your application starts the application's
-routing process, sets up the necessary internal structure based on configuration
+Finally your application starts the routing process, 
+sets up the necessary internal structure based on configuration
 we've done earlier, and inserts an instance of your `ApplicationView` (with an
 instance of `ApplicationController` as its rending context) into the page.
 
@@ -336,7 +339,7 @@ template with markup for all our contributors so I access the application's
 single shared instance of `ApplicationController` and call `connectOutlet` on
 it with `'allContributors'` as an argument.
 
-When our application is `initialize`ed, a single shared instance of each
+When our application is started, a single shared instance of each
 controller is created for us. Because you'll most likely access this instance
 from the router, it's placed as a property of the router with a name that
 matches the controller's classname but converted to lower-camel style:
