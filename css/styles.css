@@ -62,13 +62,18 @@ section, header, .footer {
   padding: 0px 5px;
 }
 
+.highlight {
+  padding: 15px;
+}
+
+pre {
+  margin: 0;
+  }
+
 .highlight pre {
   white-space: pre;
   word-wrap: normal;
 }
-
-.highlight { padding: 15px; }
-pre { margin: 0; }
 
 .about {
   padding-top:35px;

@@ -36,6 +36,14 @@
 
           <h1>Advice on &amp; Instruction in the Use Of Ember.js</h1>
 
+<blockquote>
+<p>Hey! Ember has a <a href="http://emberjs.com/guides/routing/">brand new router</a> on master
+with an an even better API.
+This article still references the current release version of Ember (1.0.pre2), 
+but will soon be outdated. I&#39;ll be removing the tutorial bits when 
+they no longer apply.</p>
+</blockquote>
+
 <p><a href="http://emberjs.com/">Ember.js</a> &mdash; for the unaware &mdash; is an application framework
 for building sophisticated browser applications. I&#39;m a frequent contributor to
 the project and use it professionally at my current gig with <a href="http://www.groupon.com/techjobs/#/about">Groupon
@@ -579,7 +587,7 @@ also going to rename &#39;index&#39; to the more descriptive state name of
 <p>I&#39;ve supplied a <code>route</code> property of <code>&#39;/:githubUserName&#39;</code>, which we&#39;ll use later
 to serialize and deserialize this state. I&#39;ve implemented the <code>connectOutlets</code>
 method with two arguments: one to represent the entire router and one, called
-<code>context</code>, which will help answer the question &quot;_which_ contributor&quot; later on.
+<code>context</code>, which will help answer the question &quot;<em>which</em> contributor&quot; later on.
 Inside <code>connectOutlets</code> I&#39;ve accessed the shared instance of
 <code>ApplicationController</code> and used it to connect the outlet in its view (an
 instance of <code>ApplicationView</code>) to a pairing of
@@ -787,7 +795,7 @@ becomes the <code>context</code> passed to <code>connectOutlets</code>, so I mus
 an object that will get populated with data later. Let&#39;s add
 <code>App.Contributor.findOne</code> to allow for passing a Github user name.</p>
 
-<p>Github allows us to access a user at &#39;/users/*a name*&#39;, but this isn&#39;t within
+<p>Github allows us to access a user at &#39;/users/<em>a name</em>&#39;, but this isn&#39;t within
 the context of a particular repository, so we won&#39;t have access to this users
 contribution count, which is part of the data we need. To see a particular
 users in the context of a repository we&#39;ll need to load them all and locally
