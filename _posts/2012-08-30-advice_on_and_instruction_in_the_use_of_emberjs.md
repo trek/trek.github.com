@@ -363,7 +363,7 @@ App.AllContributorsView = Ember.View.extend({
 ```
 
 The `AllContributorsController` is a subclass of Ember's `ArrayController` class.
-`ArrayController`s acts as containers for any array-like object in Ember and
+`ArrayController`s act as containers for array-like objects in Ember and
 simply proxy undefined properties or methods to the underlying `content` array.
 
 In our template, the each call (`{% raw %}{{each person in controller}}{% endraw %}`) is passed along
@@ -831,7 +831,7 @@ any sections bound to properties whose values have changed.
 That's an Ember application. States, transitioning between them, and
 loading data when you need it. You can build up surprisingly sophisticated and
 robust UIs by repeating this process until you're happy. Let's repeat this by
-add a "back to all contributors" navigation to our template for a single contributor:
+adding a "back to all contributors" navigation to our template for a single contributor:
 
 Right now the template is pretty simple:
 
@@ -1037,7 +1037,7 @@ App.Contributor = Ember.Object.extend({
       dataType: 'jsonp',
       success: function(response){
         this.setProperties(response.data);
-      })
+      }
     })
   }
 });
