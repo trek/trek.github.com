@@ -4,10 +4,10 @@ title: Advice on & Instruction in the use of Ember.js
 ---
 # Advice on & Instruction in the Use Of Ember.js
 
-> Hey! Ember has a [brand new router](http://emberjs.com/guides/routing/) on master
+> Hey! Ember has a [brand new router](http://emberjs.com/guides/routing/)
 with an even better API.
-This article still references the current release version of Ember (1.0.pre2), 
-but will soon be outdated. I'll be removing the tutorial bits when 
+This article still references a previous release version of Ember (1.0.pre2), 
+and is considred outdated. I'll be removing the tutorial bits as 
 they no longer apply.
 
 [Ember.js](http://emberjs.com/) &mdash; for the unaware &mdash; is an application framework
