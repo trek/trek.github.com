@@ -164,7 +164,7 @@ Views in Ember are responsible for:
    * determining the structure of a section of the application's rendered HTML.
    * responding to delegated user events.
 
-In the above view we will change structure of the page only through the view's
+In the above view we will change the structure of the page only through the view's
 template, which will render as the contents of the view's tag, but we could also
 provide a different tag name, id, css class, or other HTML attributes for the
 rendered element.
